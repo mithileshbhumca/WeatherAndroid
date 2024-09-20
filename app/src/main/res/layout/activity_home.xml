@@ -3,7 +3,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    android:orientation="vertical"
     android:padding="16dp">
 
     <LinearLayout
@@ -18,24 +17,29 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textColor="@color/black"
             android:text="@string/welcome_to_weather_app"
-            android:textSize="20sp" />
+            android:textSize="24sp"
+            android:textStyle="bold" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="8dp"
+            android:textColor="@color/gray"
             android:text="@string/type_any_city_name"
-            android:textSize="14sp" />
+            android:textSize="16sp" />
 
         <SearchView
             android:id="@+id/searchView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            android:layout_marginBottom="14dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
             android:iconifiedByDefault="false"
             android:queryHint="search your city"
+            app:backgroundTint="@color/primary"
+            app:queryBackground="@android:color/transparent"
             app:defaultQueryHint="hint"
             app:iconifiedByDefault="false"
             app:queryHint="hint" />
@@ -44,6 +48,7 @@
             android:id="@+id/citiesRecyclerView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:scrollbars="vertical"
             android:layout_marginTop="16dp" />
     </LinearLayout>
 

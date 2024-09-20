@@ -3,4 +3,10 @@
     <string name="weather_detail">Weather Details</string>
     <string name="welcome_to_weather_app">Welcome to Weather App</string>
     <string name="type_any_city_name">Type any city name to get weather forecast details</string>
+    <string name="temperature_string">%1$.1f\u00B0</string>
+    <string name="max_temp">%</string>
+    <string name="max_temp_label">Max Temp: %1$.1f°C</string>
+    <string name="min_temp_label">Min Temp: %1$.1f°C</string>
+
+
 </resources>

@@ -22,7 +22,7 @@ class CityAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CityViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.weather_item, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.city_item, parent, false)
 
         return CityViewHolder(view)
     }

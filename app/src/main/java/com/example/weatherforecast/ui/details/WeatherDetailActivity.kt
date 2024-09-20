@@ -2,21 +2,28 @@ package com.example.weatherforecast.ui.details
 
 import android.os.Bundle
 import android.view.View
+import android.widget.ImageView
 import android.widget.ProgressBar
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.ComponentActivity
-import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.example.weatherforecast.R
 import com.example.weatherforecast.data.api.ApiHelperImpl
 import com.example.weatherforecast.data.api.RetrofitBuilder
 import com.example.weatherforecast.data.api.UiState
 import com.example.weatherforecast.data.api.ViewModelFactory
-import com.example.weatherforecast.data.model.City
+import com.example.weatherforecast.data.model.ThreeHoursWeatherForecast
 import com.example.weatherforecast.data.model.WeatherDetailData
 import com.example.weatherforecast.data.model.WeatherForecast
 import com.example.weatherforecast.databinding.ActivityWeatherDetailBinding
-import com.example.weatherforecast.ui.home.SearchViewModel
 import com.example.weatherforecast.utils.Constants
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 
 class WeatherDetailActivity : ComponentActivity() {
@@ -26,6 +33,14 @@ class WeatherDetailActivity : ComponentActivity() {
     //private lateinit var weatherApiService: WeatherApiService
     private lateinit var detailViewModel: WeatherDetailViewModel
     private lateinit var progressBar: ProgressBar
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var locationText: TextView
+    private lateinit var temperatureText: TextView
+    private lateinit var maxTempText: TextView
+    private lateinit var minTempText: TextView
+    private lateinit var weatherIcon: ImageView
+
+    private var forecastAdapter: ForecastAdapter? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -49,6 +64,16 @@ class WeatherDetailActivity : ComponentActivity() {
 
     private fun setupUI() {
         progressBar = binding.progressBar
+        recyclerView = binding.forecastRecyclerView
+
+        locationText = binding.location
+        temperatureText = binding.temperature
+        maxTempText = binding.maxTemp
+        minTempText = binding.minTemp
+        weatherIcon = binding.weatherIcon
+
+        recyclerView.setLayoutManager(LinearLayoutManager(this));
+
     }
 
     private fun setupViewModel() {
@@ -84,9 +109,53 @@ class WeatherDetailActivity : ComponentActivity() {
     }
 
     private fun renderData(weatherDetailData: WeatherDetailData) {
+        val cityWeather = weatherDetailData.currentWeather
+        val cityForeCast = weatherDetailData.weatherForecast
+        locationText.setText("Location: " + cityWeather.name);
+        temperatureText.setText(String.format("Temperature: %.1f°C", cityWeather.main?.temp));
+        maxTempText.setText(String.format("Max Temp: %.1f°C", cityWeather.main?.tempMax));
+        minTempText.setText(String.format("Min Temp: %.1f°C", cityWeather.main?.tempMin));
+        val icon = cityWeather.weather?.get(0)?.icon
+        if (icon != null) {
+            loadIcon("http://openweathermap.org/img/w/${icon}.png")
+        } else {
+            loadIcon("")
+        }
 
-        binding.cityNameTextView.text = weatherDetailData.weatherForecast.city?.name
+        renderForecast(cityForeCast);
+    }
 
+
+    private fun loadIcon(iconUrl: String) {
+        if (iconUrl.isNotEmpty()) {
+            Glide.with(this).load(iconUrl).into(binding.weatherIcon)
+        } else {
+            Glide.with(this).load(R.drawable.ic_broken_image).into(binding.weatherIcon)
+        }
+    }
+
+    private fun renderForecast(cityForeCast: WeatherForecast) {
+        val forecastList = getUniqueForecasts(cityForeCast.list!!)
+
+        forecastAdapter = ForecastAdapter(forecastList);
+        recyclerView.setAdapter(forecastAdapter);
+    }
+
+    private fun getUniqueForecasts(forecastList: List<ThreeHoursWeatherForecast>): List<ThreeHoursWeatherForecast> {
+        val uniqueForecasts = ArrayList<ThreeHoursWeatherForecast>()
+        val dateMap = HashMap<String, ThreeHoursWeatherForecast>()
+
+        for (item in forecastList) {
+            val dateKey =
+                SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(item.dt!! * 1000)
+
+            if (!dateMap.containsKey(dateKey)) {
+                dateMap[dateKey] = item
+            }
+        }
+
+        uniqueForecasts.addAll(dateMap.values)
+        return uniqueForecasts
     }
 
 }

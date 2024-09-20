@@ -73,6 +73,8 @@ dependencies {
     implementation(libs.androidx.material3)
     implementation(libs.logging.interceptor)
     implementation(libs.androidx.cardview)
+    implementation(libs.glide)
+    annotationProcessor(libs.glide.compiler)
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.recyclerview)
     implementation(libs.androidx.constraintlayout)
