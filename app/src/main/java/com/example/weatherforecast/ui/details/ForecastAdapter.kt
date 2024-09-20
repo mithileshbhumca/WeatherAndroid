@@ -31,10 +31,12 @@ class ForecastAdapter(private val forecastList: List<ThreeHoursWeatherForecast>?
         holder.minTempTextView.text = "Min: ${item.main?.tempMin}°C"
 
         // Load the weather icon (assuming `item.weather[0].icon` is the icon code)
-        val iconUrl = "https://openweathermap.org/img/wn/${item.weather!![0].icon}@2x.png"
-//        Glide.with(holder.itemView.context)
-//            .load(iconUrl)
-//            .into(holder.weatherIcon)
+       // val iconUrl = "https://openweathermap.org/img/wn/${item.weather!![0].icon}@2x.png"
+        val iconUrl="https://openweathermap.org/img/w/${item.weather!![0].icon}.png"
+
+        Glide.with(holder.itemView.context)
+            .load(iconUrl)
+            .into(holder.weatherIcon)
 
     }
 
@@ -46,6 +48,8 @@ class ForecastAdapter(private val forecastList: List<ThreeHoursWeatherForecast>?
         val dateText: TextView = itemView.findViewById(R.id.dateText)
         val maxTempTextView: TextView = itemView.findViewById(R.id.max_temp)
         val minTempTextView: TextView = itemView.findViewById(R.id.min_temp)
-        //val weatherIcon: ImageView = itemView.findViewById(R.id.weatherIcon)
+        val weatherIcon: ImageView = itemView.findViewById(R.id.weather_icon)
     }
+
+
 }

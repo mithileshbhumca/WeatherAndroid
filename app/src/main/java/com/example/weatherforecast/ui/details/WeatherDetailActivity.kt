@@ -113,7 +113,7 @@ class WeatherDetailActivity : ComponentActivity() {
         minTempText.setText(String.format("Min Temp: %.1f°C", cityWeather.main?.tempMin));
         val icon = cityWeather.weather?.get(0)?.icon
         if (icon != null) {
-            loadIcon("http://openweathermap.org/img/w/${icon}.png")
+            loadIcon("https://openweathermap.org/img/w/${icon}.png")
         } else {
             loadIcon("")
         }
@@ -124,9 +124,9 @@ class WeatherDetailActivity : ComponentActivity() {
 
     private fun loadIcon(iconUrl: String) {
         if (iconUrl.isNotEmpty()) {
-            Glide.with(this).load(iconUrl).into(binding.weatherIcon)
+            Glide.with(this).load(iconUrl).into(weatherIcon)
         } else {
-            Glide.with(this).load(R.drawable.ic_broken_image).into(binding.weatherIcon)
+            Glide.with(this).load(R.drawable.ic_broken_image).into(weatherIcon)
         }
     }
 
