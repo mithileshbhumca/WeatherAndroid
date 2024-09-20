@@ -20,8 +20,8 @@ Weather App is a simple Android application that allows users to get current wea
 - **View Binding**: The app uses view binding for easier interaction with views.
 - **View Model**: The app uses View model for easier communication with views and data sources.
 - **Retrofit**: Network requests are handled using Retrofit, a type-safe HTTP client.
-- 
-- ## Architecture: MVVM (Model-View-ViewModel)
+  
+- **Architecture: MVVM (Model-View-ViewModel)**:
 This project follows the **MVVM** (Model-View-ViewModel) architecture pattern to separate concerns and create a scalable and maintainable application structure. Below is an overview of the architecture and how it’s applied in this project.
 
 
@@ -46,7 +46,7 @@ Make sure you have the following installed:
 - After build finish, run it real device or install android studio emulator.
 
 ## Project Structure
-Project follows MVVM clean architecture to separate UI and data 
+The project follows MVVM clean architecture to separate UI and data 
 
 ![project](https://github.com/user-attachments/assets/e27a9386-c265-42ae-80d3-72b78cb0a67d)
 
@@ -66,8 +66,7 @@ Unit tests are run on your local machine and are usually located in the `src/tes
    - Test results will be shown in the `Run` window at the bottom of Android Studio.
    - To view detailed reports, navigate to the `build/reports/tests/testDebugUnitTest/index.html` file in the `project` directory.
  
-
-## Screenshot
+## App Screenshot
   ##Screen1 When we open app show simple screen to search city name for weather details, its showing all available city matched with typed text
   
    ![weather1](https://github.com/user-attachments/assets/b71195d5-0c78-49f3-a0e3-f4b1af5a1ab1)
