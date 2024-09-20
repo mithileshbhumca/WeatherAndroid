@@ -8,7 +8,6 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -30,7 +29,6 @@ class WeatherDetailActivity : ComponentActivity() {
 
     private lateinit var binding: ActivityWeatherDetailBinding
 
-    //private lateinit var weatherApiService: WeatherApiService
     private lateinit var detailViewModel: WeatherDetailViewModel
     private lateinit var progressBar: ProgressBar
     private lateinit var recyclerView: RecyclerView
@@ -56,8 +54,6 @@ class WeatherDetailActivity : ComponentActivity() {
         val cityLog = intent.getDoubleExtra(Constants.CITY_LOG, 0.0)
         val cityName = intent.getStringExtra(Constants.CITY_NAME)
         if (cityLat != 0.0 && cityLog != 0.0) {
-            //binding.cityNameTextView.text = cityName
-            //fetchWeatherDetails(cityName)
             detailViewModel.fetchDetails(cityLat, cityLog, cityName)
         }
     }
