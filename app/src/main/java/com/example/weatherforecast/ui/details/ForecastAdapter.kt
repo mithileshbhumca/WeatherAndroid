@@ -26,12 +26,7 @@ class ForecastAdapter(private val forecastList: List<ThreeHoursWeatherForecast>?
         val item = forecastList?.get(position)
         holder.dateText.text = SimpleDateFormat("EEE, d MMM", Locale.getDefault())
             .format(item!!.dt!! * 1000)
-        /*
-        holder.tempText.text =
-            String.format(Locale.getDefault(), "Temp: %.1f°C", item.main?.tempMin)
-        holder.tempText.text =
-            String.format(Locale.getDefault(), "Temp: %.1f°C", item.main?.tempMax)
-   */
+
         holder.maxTempTextView.text = "Max: ${item.main?.tempMax}°C"
         holder.minTempTextView.text = "Min: ${item.main?.tempMin}°C"
 
