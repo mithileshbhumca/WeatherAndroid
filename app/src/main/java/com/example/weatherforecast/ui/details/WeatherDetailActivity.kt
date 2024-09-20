@@ -8,14 +8,15 @@ import androidx.activity.ComponentActivity
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.example.weatherforecast.data.api.ApiHelperImpl
+import com.example.weatherforecast.data.api.RetrofitBuilder
 import com.example.weatherforecast.data.api.UiState
 import com.example.weatherforecast.data.api.ViewModelFactory
 import com.example.weatherforecast.data.model.City
+import com.example.weatherforecast.data.model.WeatherDetailData
 import com.example.weatherforecast.data.model.WeatherForecast
 import com.example.weatherforecast.databinding.ActivityWeatherDetailBinding
 import com.example.weatherforecast.ui.home.SearchViewModel
 import com.example.weatherforecast.utils.Constants
-import me.amitshekhar.learn.kotlin.coroutines.data.api.RetrofitBuilder
 
 
 class WeatherDetailActivity : ComponentActivity() {
@@ -42,7 +43,7 @@ class WeatherDetailActivity : ComponentActivity() {
         if (cityLat != 0.0 && cityLog != 0.0) {
             //binding.cityNameTextView.text = cityName
             //fetchWeatherDetails(cityName)
-            detailViewModel.fetchDetails(cityLat, cityLog)
+            detailViewModel.fetchDetails(cityLat, cityLog, cityName)
         }
     }
 
@@ -82,9 +83,9 @@ class WeatherDetailActivity : ComponentActivity() {
         }
     }
 
-    private fun renderData(forecast: WeatherForecast) {
+    private fun renderData(weatherDetailData: WeatherDetailData) {
 
-        binding.cityNameTextView.text = forecast.city?.name
+        binding.cityNameTextView.text = weatherDetailData.weatherForecast.city?.name
 
     }
 

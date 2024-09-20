@@ -1,4 +1,4 @@
-package me.amitshekhar.learn.kotlin.coroutines.data.api
+package com.example.weatherforecast.data.api
 
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor

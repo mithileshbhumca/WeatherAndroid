@@ -15,13 +15,14 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.weatherforecast.R
 import com.example.weatherforecast.data.api.ApiHelperImpl
+import com.example.weatherforecast.data.api.RetrofitBuilder
 import com.example.weatherforecast.data.api.UiState
 import com.example.weatherforecast.data.api.ViewModelFactory
 import com.example.weatherforecast.data.model.City
 import com.example.weatherforecast.ui.details.WeatherDetailActivity
 import com.example.weatherforecast.utils.Constants.CITY_LAT
 import com.example.weatherforecast.utils.Constants.CITY_LOG
-import me.amitshekhar.learn.kotlin.coroutines.data.api.RetrofitBuilder
+import com.example.weatherforecast.utils.Constants.CITY_NAME
 
 class HomeActivity : ComponentActivity() {
 
@@ -50,6 +51,7 @@ class HomeActivity : ComponentActivity() {
                 val intent = Intent(this, WeatherDetailActivity::class.java)
                 intent.putExtra(CITY_LAT, city.lat)
                 intent.putExtra(CITY_LOG, city.lon)
+                intent.putExtra(CITY_NAME, city.name)
                 startActivity(intent)
             }
 
