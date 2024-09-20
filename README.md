@@ -20,10 +20,11 @@ Weather App is a simple Android application that allows users to get current wea
 - **View Binding**: The app uses view binding for easier interaction with views.
 - **View Model**: The app uses View model for easier communication with views and data sources.
 - **Retrofit**: Network requests are handled using Retrofit, a type-safe HTTP client.
+- 
 - ## Architecture: MVVM (Model-View-ViewModel)
-This project follows the **MVVM** (Model-View-ViewModel) architecture pattern to separate concerns and create a scalable and maintainable application structure. Below is an overview of the architecture and how it’s applied in this project:
+This project follows the **MVVM** (Model-View-ViewModel) architecture pattern to separate concerns and create a scalable and maintainable application structure. Below is an overview of the architecture and how it’s applied in this project.
 
-  
+
 ## API Key Setup
 
 To use the app, you need an API key from OpenWeatherMap. You can sign up for a free API key [here](https://openweathermap.org/).
@@ -43,6 +44,28 @@ Make sure you have the following installed:
 - A stable internet connection for downloading dependencies.
 
 - After build finish, run it real device or install android studio emulator.
+
+## Project Structure
+Project follows MVVM clean architecture to separate UI and data 
+
+![project](https://github.com/user-attachments/assets/e27a9386-c265-42ae-80d3-72b78cb0a67d)
+
+## How to Generate Test Report in Android Studio
+
+You can generate test reports in Android Studio for both **Unit Tests**. Here's a step-by-step guide to generate these reports:
+
+ **Running Unit Tests**
+
+Unit tests are run on your local machine and are usually located in the `src/test/java` folder. Follow the steps below to run them and generate reports:
+
+1. **Run Tests**:
+   - In Android Studio, right-click on the `test` folder or any specific test class inside the folder.
+   - Click on `Run 'Tests in <filename>'` from the context menu to execute the tests.
+
+2. **View Test Results**:
+   - Test results will be shown in the `Run` window at the bottom of Android Studio.
+   - To view detailed reports, navigate to the `build/reports/tests/testDebugUnitTest/index.html` file in the `project` directory.
+ 
 
 ## Screenshot
   ##Screen1 When we open app show simple screen to search city name for weather details, its showing all available city matched with typed text
