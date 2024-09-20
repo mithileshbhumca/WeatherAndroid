@@ -17,7 +17,15 @@
         android:textColor="@color/black" />
 
     <TextView
-        android:id="@+id/tempText"
+        android:id="@+id/min_temp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Temp: 25°C"
+        android:textSize="16sp"
+        android:textColor="@color/dark_gray"
+        android:layout_marginTop="4dp" />
+ <TextView
+        android:id="@+id/max_temp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Temp: 25°C"

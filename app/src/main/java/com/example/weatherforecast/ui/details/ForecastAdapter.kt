@@ -26,7 +26,14 @@ class ForecastAdapter(private val forecastList: List<ThreeHoursWeatherForecast>?
         val item = forecastList?.get(position)
         holder.dateText.text = SimpleDateFormat("EEE, d MMM", Locale.getDefault())
             .format(item!!.dt!! * 1000)
-        holder.tempText.text = String.format(Locale.getDefault(), "Temp: %.1f°C", item.main?.temp)
+        /*
+        holder.tempText.text =
+            String.format(Locale.getDefault(), "Temp: %.1f°C", item.main?.tempMin)
+        holder.tempText.text =
+            String.format(Locale.getDefault(), "Temp: %.1f°C", item.main?.tempMax)
+   */
+        holder.maxTempTextView.text = "Max: ${item.main?.tempMax}°C"
+        holder.minTempTextView.text = "Min: ${item.main?.tempMin}°C"
 
         // Load the weather icon (assuming `item.weather[0].icon` is the icon code)
         val iconUrl = "https://openweathermap.org/img/wn/${item.weather!![0].icon}@2x.png"
@@ -42,7 +49,8 @@ class ForecastAdapter(private val forecastList: List<ThreeHoursWeatherForecast>?
 
     class ForecastViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val dateText: TextView = itemView.findViewById(R.id.dateText)
-        val tempText: TextView = itemView.findViewById(R.id.tempText)
+        val maxTempTextView: TextView = itemView.findViewById(R.id.max_temp)
+        val minTempTextView: TextView = itemView.findViewById(R.id.min_temp)
         //val weatherIcon: ImageView = itemView.findViewById(R.id.weatherIcon)
     }
 }
