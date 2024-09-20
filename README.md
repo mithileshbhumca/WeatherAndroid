@@ -18,6 +18,7 @@ WeatherAndroid is a simple Android application that allows users to get current 
 - **Coroutines**: Asynchronous network calls are managed using Kotlin coroutines.
 - **OpenWeatherMap API**: The app fetches weather data from the OpenWeatherMap API.
 - **View Binding**: The app uses view binding for easier interaction with views.
+- **View Model**: The app uses View model for easier communication with views and data sources.
 - **Retrofit**: Network requests are handled using Retrofit, a type-safe HTTP client.
   
 ## API Key Setup
