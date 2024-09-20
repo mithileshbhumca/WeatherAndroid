@@ -35,11 +35,13 @@ Once you have the API key, replace `YOUR_API_KEY` in the code with your actual A
    
 ## Screenshot
   ##Screen1 When we open app show simple screen to search city name for weather details, its showing all available city matched with typed text
-   ![image1](https://github.com/user-attachments/assets/b39c789c-0868-4e3d-8681-4890e82b9d66)
+  
+   ![weather1](https://github.com/user-attachments/assets/b71195d5-0c78-49f3-a0e3-f4b1af5a1ab1)
 
     ##Screen2 Once click on any city from screen1, then navigate to screen2 for city weather details, showing current temp, and five days forecast data
 
-   ![WeatherForecast](https://github.com/user-attachments/assets/a6478667-1680-469f-8e2c-79a1879a2f46)
+   ![weather2](https://github.com/user-attachments/assets/df0c879d-0eec-4f8f-80b2-3b94dc7b50c2)
+
 
 
 
