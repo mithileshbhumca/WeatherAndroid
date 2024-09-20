@@ -107,10 +107,10 @@ class WeatherDetailActivity : ComponentActivity() {
     private fun renderData(weatherDetailData: WeatherDetailData) {
         val cityWeather = weatherDetailData.currentWeather
         val cityForeCast = weatherDetailData.weatherForecast
-        locationText.setText("Location: " + cityWeather.name);
-        temperatureText.setText(String.format("Temperature: %.1f°C", cityWeather.main?.temp));
-        maxTempText.setText(String.format("Max Temp: %.1f°C", cityWeather.main?.tempMax));
-        minTempText.setText(String.format("Min Temp: %.1f°C", cityWeather.main?.tempMin));
+        locationText.setText(cityWeather.name);
+        temperatureText.setText(String.format("%.1f°C", cityWeather.main?.temp));
+        maxTempText.setText(String.format("%.1f°C", cityWeather.main?.tempMax));
+        minTempText.setText(String.format("%.1f°C", cityWeather.main?.tempMin));
         val icon = cityWeather.weather?.get(0)?.icon
         if (icon != null) {
             loadIcon("https://openweathermap.org/img/w/${icon}.png")
