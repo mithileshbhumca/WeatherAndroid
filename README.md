@@ -1,6 +1,6 @@
 # Weather App - Android
 
-WeatherAndroid is a simple Android application that allows users to get current weather conditions and a 5-day weather forecast based on city names. It uses the OpenWeatherMap API to fetch weather data and displays the following information:
+Weather App is a simple Android application that allows users to get current weather conditions and a 5-day weather forecast based on city names. It uses the OpenWeatherMap API to fetch weather data and displays the following information:
 
 - Current temperature and weather description.
 - 5-day forecast with daily high and low temperatures.
