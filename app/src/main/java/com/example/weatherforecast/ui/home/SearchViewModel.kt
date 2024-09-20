@@ -5,7 +5,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.weatherforecast.data.api.ApiHelper
-import com.example.weatherforecast.data.api.ApiHelperImpl
 import com.example.weatherforecast.data.api.UiState
 import com.example.weatherforecast.data.model.City
 import kotlinx.coroutines.launch
@@ -14,10 +13,6 @@ class SearchViewModel(
     private val apiHelper: ApiHelper
 ) : ViewModel() {
     private val uiState = MutableLiveData<UiState<List<City>>>()
-
-    init {
-        // fetchCity()
-    }
 
     fun fetchCity(cityName: String) {
         viewModelScope.launch {

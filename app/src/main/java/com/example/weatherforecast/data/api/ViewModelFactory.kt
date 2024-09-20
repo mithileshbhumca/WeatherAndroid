@@ -5,7 +5,6 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.weatherforecast.ui.details.WeatherDetailViewModel
 import com.example.weatherforecast.ui.home.SearchViewModel
 
-
 class ViewModelFactory(private val apiHelper: ApiHelper) :
     ViewModelProvider.NewInstanceFactory() {
 

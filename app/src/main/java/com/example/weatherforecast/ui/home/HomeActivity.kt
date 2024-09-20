@@ -3,14 +3,11 @@ package com.example.weatherforecast.ui.home
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import android.widget.Button
-import android.widget.EditText
 import android.widget.ProgressBar
 import android.widget.SearchView
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.weatherforecast.R
