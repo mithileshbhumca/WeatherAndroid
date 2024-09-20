@@ -31,3 +31,15 @@ Once you have the API key, replace `YOUR_API_KEY` in the code with your actual A
 1. Clone this repository:
    ```bash
    git clone https://github.com/mithileshbhumca/WeatherAndroid.git
+   
+## Screenshot
+  ##Screen1 When we open app show simple screen to search city name for weather details, its showing all available city matched with typed text
+   ![image1](https://github.com/user-attachments/assets/b39c789c-0868-4e3d-8681-4890e82b9d66)
+
+    ##Screen2 Once click on any city from screen1, then navigate to screen2 for city weather details, showing current temp, and five days forecast data
+
+   ![WeatherForecast](https://github.com/user-attachments/assets/a6478667-1680-469f-8e2c-79a1879a2f46)
+
+
+
+
