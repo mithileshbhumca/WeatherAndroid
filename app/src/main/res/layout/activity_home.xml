@@ -2,7 +2,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#808080"
+    android:background="@color/white"
     android:orientation="vertical"
     android:padding="16dp">
 
@@ -10,10 +10,23 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
+        android:layout_marginTop="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/welcome_to_weather_app"
+            android:textSize="20sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="@string/type_any_city_name"
+            android:textSize="14sp" />
 
         <SearchView
             android:id="@+id/searchView"
@@ -26,12 +39,6 @@
             app:defaultQueryHint="hint"
             app:iconifiedByDefault="false"
             app:queryHint="hint" />
-
-        <Button
-            android:id="@+id/searchButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Search" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/citiesRecyclerView"

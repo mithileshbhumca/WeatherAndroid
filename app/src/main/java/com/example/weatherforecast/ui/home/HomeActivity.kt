@@ -23,14 +23,12 @@ import com.example.weatherforecast.utils.Constants.CITY_LAT
 import com.example.weatherforecast.utils.Constants.CITY_LOG
 import me.amitshekhar.learn.kotlin.coroutines.data.api.RetrofitBuilder
 
-
 class HomeActivity : ComponentActivity() {
 
     private lateinit var searchViewModel: SearchViewModel
 
     private lateinit var adapter: CityAdapter
 
-    private lateinit var searchButton: Button
     private lateinit var citiesRecyclerView: RecyclerView
     private lateinit var progressBar: ProgressBar
     private lateinit var searchView: SearchView
@@ -40,20 +38,9 @@ class HomeActivity : ComponentActivity() {
         setupUI()
         setupViewModel()
         setupObserver()
-
-
-        // searchViewModel = ViewModelProvider(this).get(SearchViewModel::class.java)
-
-        /*  // Observe the LiveData from the ViewModel
-          searchViewModel.cityList.observe(this, Observer { cities ->
-              if (cities != null) {
-                  citiesRecyclerView.adapter = CityAdapter(cities)
-              }
-          })*/
     }
 
     private fun setupUI() {
-        searchButton = findViewById(R.id.searchButton)
         searchView = findViewById(R.id.searchView)
         citiesRecyclerView = findViewById(R.id.citiesRecyclerView)
         progressBar = findViewById(R.id.progressBar)

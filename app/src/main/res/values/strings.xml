@@ -1,4 +1,6 @@
 <resources>
     <string name="app_name">WeatherForecast</string>
     <string name="weather_detail">Weather Details</string>
+    <string name="welcome_to_weather_app">Welcome to Weather App</string>
+    <string name="type_any_city_name">Type any city name to get weather forecast details</string>
 </resources>
