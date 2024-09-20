@@ -76,7 +76,8 @@ Unit tests are run on your local machine and are usually located in the `src/tes
 
     ##Screen2 Once click on any city from screen1, then navigate to screen2 for city weather details, showing current temp, and five days forecast data
 
-   ![weather2](https://github.com/user-attachments/assets/df0c879d-0eec-4f8f-80b2-3b94dc7b50c2)
+   ![weather2](https://github.com/user-attachments/assets/54b3e1f3-9652-43a8-89b1-dbefe3b557bf)
+
 
 
 
