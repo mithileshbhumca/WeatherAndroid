@@ -1,4 +1,4 @@
-# WeatherAndroid
+# Weather App - Android
 
 WeatherAndroid is a simple Android application that allows users to get current weather conditions and a 5-day weather forecast based on city names. It uses the OpenWeatherMap API to fetch weather data and displays the following information:
 
@@ -20,6 +20,8 @@ WeatherAndroid is a simple Android application that allows users to get current 
 - **View Binding**: The app uses view binding for easier interaction with views.
 - **View Model**: The app uses View model for easier communication with views and data sources.
 - **Retrofit**: Network requests are handled using Retrofit, a type-safe HTTP client.
+- **MVVM Architecture**: Used MVVM architecture to build the project.
+
   
 ## API Key Setup
 
