@@ -43,7 +43,7 @@ Make sure you have the following installed:
 
 - A stable internet connection for downloading dependencies.
 
-- After build finish, run it real device or install android studio emulator.
+- After the build finishes, run it on a real Android device or install android studio emulator.
 
 ## Project Structure
 The project follows MVVM clean architecture to separate UI and data 
