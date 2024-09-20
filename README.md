@@ -37,8 +37,9 @@ Once you have the API key, replace `YOUR_API_KEY` in the code with your actual A
    ![image1](https://github.com/user-attachments/assets/b39c789c-0868-4e3d-8681-4890e82b9d66)
 
     ##Screen2 Once click on any city from screen1, then navigate to screen2 for city weather details, showing current temp, and five days forecast data
- 
-   ![weather_detail](https://github.com/user-attachments/assets/eeb462c0-a61c-4389-99e0-2464f3275088)
+
+   ![WeatherForecast](https://github.com/user-attachments/assets/a6478667-1680-469f-8e2c-79a1879a2f46)
+
 
 
 
