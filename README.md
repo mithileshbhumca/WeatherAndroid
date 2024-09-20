@@ -8,9 +8,9 @@ Weather App is a simple Android application that allows users to get current wea
 ## Features
 
 - **Search for weather by city name**: Users can search for weather conditions by entering the name of a city in the search bar.
+- **City list auto-complete**: As users type in the search bar, the app fetches matching city names and shows a list of suggestions.
 - **Current weather conditions**: The app displays real-time temperature and a brief weather description.
 - **5-day forecast**: The app provides a forecast of high and low temperatures along with weather conditions for the next 5 days.
-- **City list auto-complete**: As users type in the search bar, the app fetches matching city names and shows a list of suggestions.
 
 ## Technologies Used
 
@@ -20,7 +20,8 @@ Weather App is a simple Android application that allows users to get current wea
 - **View Binding**: The app uses view binding for easier interaction with views.
 - **View Model**: The app uses View model for easier communication with views and data sources.
 - **Retrofit**: Network requests are handled using Retrofit, a type-safe HTTP client.
-- **MVVM Architecture**: Used MVVM architecture to build the project.
+- ## Architecture: MVVM (Model-View-ViewModel)
+This project follows the **MVVM** (Model-View-ViewModel) architecture pattern to separate concerns and create a scalable and maintainable application structure. Below is an overview of the architecture and how it’s applied in this project:
 
   
 ## API Key Setup
@@ -35,6 +36,14 @@ Once you have the API key, replace `YOUR_API_KEY` in the code with your actual A
    ```bash
    git clone https://github.com/mithileshbhumca/WeatherAndroid.git
    
+## How to Run
+Make sure you have the following installed:
+- [Android Studio](https://developer.android.com/studio).
+
+- A stable internet connection for downloading dependencies.
+
+- After build finish, run it real device or install android studio emulator.
+
 ## Screenshot
   ##Screen1 When we open app show simple screen to search city name for weather details, its showing all available city matched with typed text
   
