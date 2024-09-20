@@ -31,3 +31,8 @@ Once you have the API key, replace `YOUR_API_KEY` in the code with your actual A
 1. Clone this repository:
    ```bash
    git clone https://github.com/mithileshbhumca/WeatherAndroid.git
+   
+## Screenshot
+   ![image2](https://github.com/user-attachments/assets/d024b120-6db9-45f0-ade7-4d381719f729)
+![image1](https://github.com/user-attachments/assets/b39c789c-0868-4e3d-8681-4890e82b9d66)
+
