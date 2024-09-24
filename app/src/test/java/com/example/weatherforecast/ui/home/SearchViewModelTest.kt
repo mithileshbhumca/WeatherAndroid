@@ -2,8 +2,8 @@ package com.example.weatherforecast.ui.home
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
-import com.example.weatherforecast.data.api.ApiHelper
-import com.example.weatherforecast.data.api.UiState
+import com.example.weatherforecast.data.network.ApiHelper
+import com.example.weatherforecast.data.repository.UiState
 import com.example.weatherforecast.data.model.City
 import com.example.weatherforecast.utils.TestCoroutineRule
 import kotlinx.coroutines.ExperimentalCoroutinesApi

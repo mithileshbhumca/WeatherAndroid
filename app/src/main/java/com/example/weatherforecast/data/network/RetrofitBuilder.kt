@@ -1,4 +1,4 @@
-package com.example.weatherforecast.data.api
+package com.example.weatherforecast.data.network
 
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -25,6 +25,7 @@ object RetrofitBuilder {
             .client(okHttpClient)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
+
     }
 
 

@@ -11,11 +11,13 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.weatherforecast.R
-import com.example.weatherforecast.data.api.ApiHelperImpl
-import com.example.weatherforecast.data.api.RetrofitBuilder
-import com.example.weatherforecast.data.api.UiState
-import com.example.weatherforecast.data.api.ViewModelFactory
+import com.example.weatherforecast.data.network.ApiHelperImpl
+import com.example.weatherforecast.data.network.RetrofitBuilder
+import com.example.weatherforecast.data.repository.UiState
+import com.example.weatherforecast.ui.viewmodel.ViewModelFactory
 import com.example.weatherforecast.data.model.City
+import com.example.weatherforecast.databinding.ActivityHomeBinding
+import com.example.weatherforecast.databinding.ActivityWeatherDetailBinding
 import com.example.weatherforecast.ui.details.WeatherDetailActivity
 import com.example.weatherforecast.utils.Constants.CITY_LAT
 import com.example.weatherforecast.utils.Constants.CITY_LOG
@@ -30,18 +32,22 @@ class HomeActivity : ComponentActivity() {
     private lateinit var citiesRecyclerView: RecyclerView
     private lateinit var progressBar: ProgressBar
     private lateinit var searchView: SearchView
+
+    private lateinit var binding: ActivityHomeBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_home)
+        binding = ActivityHomeBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         setupUI()
         setupViewModel()
         setupObserver()
     }
 
     private fun setupUI() {
-        searchView = findViewById(R.id.searchView)
-        citiesRecyclerView = findViewById(R.id.citiesRecyclerView)
-        progressBar = findViewById(R.id.progressBar)
+        searchView = binding.searchView
+        citiesRecyclerView = binding.citiesRecyclerView
+        progressBar = binding.progressBar
         citiesRecyclerView.layoutManager = LinearLayoutManager(this)
         adapter =
             CityAdapter(arrayListOf()) { city ->
@@ -76,11 +82,11 @@ class HomeActivity : ComponentActivity() {
 
 
     private fun setupViewModel() {
+        val apiService = ApiHelperImpl(RetrofitBuilder.apiService)
+        val factory = ViewModelFactory(apiService)
         searchViewModel = ViewModelProvider(
             this,
-            ViewModelFactory(
-                ApiHelperImpl(RetrofitBuilder.apiService)
-            )
+            factory
         )[SearchViewModel::class.java]
     }
 
@@ -100,7 +106,6 @@ class HomeActivity : ComponentActivity() {
                 }
 
                 is UiState.Error -> {
-                    //Handle Error
                     progressBar.visibility = View.GONE
                     Toast.makeText(this, it.message, Toast.LENGTH_LONG).show()
                 }

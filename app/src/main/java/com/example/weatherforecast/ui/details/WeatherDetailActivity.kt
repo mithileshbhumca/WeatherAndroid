@@ -12,16 +12,19 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.weatherforecast.R
-import com.example.weatherforecast.data.api.ApiHelperImpl
-import com.example.weatherforecast.data.api.RetrofitBuilder
-import com.example.weatherforecast.data.api.UiState
-import com.example.weatherforecast.data.api.ViewModelFactory
+import com.example.weatherforecast.data.network.ApiHelperImpl
+import com.example.weatherforecast.data.network.RetrofitBuilder
+import com.example.weatherforecast.data.repository.UiState
+import com.example.weatherforecast.ui.viewmodel.ViewModelFactory
 import com.example.weatherforecast.data.model.ThreeHoursWeatherForecast
 import com.example.weatherforecast.data.model.WeatherDetailData
 import com.example.weatherforecast.data.model.WeatherForecast
 import com.example.weatherforecast.databinding.ActivityWeatherDetailBinding
 import com.example.weatherforecast.utils.Constants
+import com.example.weatherforecast.utils.Constants.ICON_URL
+import com.example.weatherforecast.utils.FormattingUtil
 import java.text.SimpleDateFormat
+import java.util.LinkedHashMap
 import java.util.Locale
 
 
@@ -87,16 +90,15 @@ class WeatherDetailActivity : ComponentActivity() {
                 is UiState.Success -> {
                     progressBar.visibility = View.GONE
                     renderData(it.data)
-                    // citiesRecyclerView.visibility = View.VISIBLE
+                    recyclerView.visibility = View.VISIBLE
                 }
 
                 is UiState.Loading -> {
                     progressBar.visibility = View.VISIBLE
-                    // citiesRecyclerView.visibility = View.GONE
+                    recyclerView.visibility = View.GONE
                 }
 
                 is UiState.Error -> {
-                    //Handle Error
                     progressBar.visibility = View.GONE
                     Toast.makeText(this, it.message, Toast.LENGTH_LONG).show()
                 }
@@ -113,7 +115,7 @@ class WeatherDetailActivity : ComponentActivity() {
         minTempText.setText(String.format("%.1f°C", cityWeather.main?.tempMin));
         val icon = cityWeather.weather?.get(0)?.icon
         if (icon != null) {
-            loadIcon("https://openweathermap.org/img/w/${icon}.png")
+            loadIcon("$ICON_URL${icon}.png")
         } else {
             loadIcon("")
         }
@@ -139,12 +141,10 @@ class WeatherDetailActivity : ComponentActivity() {
 
     private fun getUniqueForecasts(forecastList: List<ThreeHoursWeatherForecast>): List<ThreeHoursWeatherForecast> {
         val uniqueForecasts = ArrayList<ThreeHoursWeatherForecast>()
-        val dateMap = HashMap<String, ThreeHoursWeatherForecast>()
+        val dateMap = LinkedHashMap<String?, ThreeHoursWeatherForecast>()
 
         for (item in forecastList) {
-            val dateKey =
-                SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(item.dt!! * 1000)
-
+            val dateKey = FormattingUtil.getFormatDate(item.dt)
             if (!dateMap.containsKey(dateKey)) {
                 dateMap[dateKey] = item
             }

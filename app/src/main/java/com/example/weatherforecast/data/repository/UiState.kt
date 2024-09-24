@@ -1,4 +1,4 @@
-package com.example.weatherforecast.data.api
+package com.example.weatherforecast.data.repository
 
 sealed interface UiState<out T> {
 
