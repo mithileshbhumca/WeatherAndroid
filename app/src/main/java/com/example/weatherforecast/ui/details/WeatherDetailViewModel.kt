@@ -25,12 +25,15 @@ class WeatherDetailViewModel(
 
             try {
                 coroutineScope {
-                    val getWeatherForecastDeffered =
-                        async { apiHelper.getWeatherForecast(lat, lon) }
+
                     val getCurrentWeatherDeffered = async { apiHelper.getCurrentWeather(city!!) }
 
-                    val getWeatherForecast = getWeatherForecastDeffered.await()
+                    val getWeatherForecastDeffered =
+                        async { apiHelper.getWeatherForecast(lat, lon) }
+
                     val getCurrentWeather = getCurrentWeatherDeffered.await()
+
+                    val getWeatherForecast = getWeatherForecastDeffered.await()
 
                     val weatherDetailData = WeatherDetailData(getCurrentWeather, getWeatherForecast)
                     uiState.postValue(UiState.Success(weatherDetailData))

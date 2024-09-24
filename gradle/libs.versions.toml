@@ -16,6 +16,11 @@ constraintlayout="2.0.4"
 logging-interceptor="4.9.3"
 cardview="1.0.0"
 glide="4.15.1"
+mockito = "3.11.2"
+coroutines-test = "1.5.2"
+core-testing = "2.1.0"
+jacoco = "0.8.8"
+
 
 [libraries]
 retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
@@ -42,8 +47,13 @@ logging-interceptor = { group = "com.squareup.okhttp3", name = "logging-intercep
 androidx-cardview = { group = "androidx.cardview", name = "cardview", version.ref = "cardview" }
 glide = { group = "com.github.bumptech.glide", name = "glide", version.ref = "glide" }
 glide-compiler = { group = "com.github.bumptech.glide", name = "compiler", version.ref = "glide" }
+mockito-core = { group = "org.mockito", name = "mockito-core", version.ref = "mockito" }
+mockito-inline = { group = "org.mockito", name = "mockito-inline", version.ref = "mockito" }
+coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "coroutines-test" }
+core-testing = { group = "androidx.arch.core", name = "core-testing", version.ref = "core-testing" }
+org-jacoco-agent = { group = "org.jacoco", name = "org.jacoco.agent", version.ref = "jacoco" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
-
+jacoco = { id = "jacoco", version.ref = "jacoco" }
