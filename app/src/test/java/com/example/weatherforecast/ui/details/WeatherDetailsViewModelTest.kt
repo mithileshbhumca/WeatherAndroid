@@ -46,7 +46,7 @@ class WeatherDetailViewModelTest {
         testCoroutineRule.runBlockingTest {
             Mockito.doReturn(mockCurrentWeather)
                 .`when`(apiHelper)
-                .getCurrentWeather("")
+                .getCurrentWeather(0.0, 0.0)
 
             Mockito.doReturn(mockWeatherForecast)
                 .`when`(apiHelper)
@@ -54,7 +54,7 @@ class WeatherDetailViewModelTest {
 
             viewModel.getUiState().observeForever(uiStateObserver)
             viewModel.fetchDetails(0.0, 0.0, "")
-            Mockito.verify(apiHelper).getCurrentWeather("")
+            Mockito.verify(apiHelper).getCurrentWeather(0.0,0.0)
              Mockito.verify(apiHelper).getWeatherForecast(0.0, 0.0)
 
             Mockito.verify(uiStateObserver, Mockito.times(2))
@@ -69,7 +69,7 @@ class WeatherDetailViewModelTest {
 
             Mockito.doThrow(RuntimeException(errorMessage))
                 .`when`(apiHelper)
-                .getCurrentWeather("")
+                .getCurrentWeather(0.0, 0.0)
 
             viewModel.getUiState().observeForever(uiStateObserver)
             viewModel.fetchDetails(0.0, 0.0, "")

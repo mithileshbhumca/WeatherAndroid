@@ -57,10 +57,7 @@ class HomeActivity : ComponentActivity() {
                 intent.putExtra(CITY_NAME, city.name)
                 startActivity(intent)
             }
-
-
         citiesRecyclerView.adapter = adapter
-
 
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
@@ -82,7 +79,7 @@ class HomeActivity : ComponentActivity() {
 
 
     private fun setupViewModel() {
-        val apiService = ApiHelperImpl(RetrofitBuilder.apiService)
+        val apiService = ApiHelperImpl(RetrofitBuilder.getApiService(this))
         val factory = ViewModelFactory(apiService)
         searchViewModel = ViewModelProvider(
             this,

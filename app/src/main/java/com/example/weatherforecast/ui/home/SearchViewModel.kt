@@ -7,7 +7,9 @@ import androidx.lifecycle.viewModelScope
 import com.example.weatherforecast.data.network.ApiHelper
 import com.example.weatherforecast.data.repository.UiState
 import com.example.weatherforecast.data.model.City
+import com.example.weatherforecast.data.network.NetworkConnectionInterceptor
 import kotlinx.coroutines.launch
+import okio.IOException
 
 class SearchViewModel(
     private val apiHelper: ApiHelper
@@ -24,6 +26,8 @@ class SearchViewModel(
                 } else {
                     uiState.postValue(UiState.Error("No cities found"))
                 }
+            } catch (e: NetworkConnectionInterceptor.NoConnectivityException) {
+                uiState.postValue(UiState.Error(e.message.toString()))
             } catch (e: Exception) {
                 uiState.postValue(UiState.Error(e.toString()))
             }

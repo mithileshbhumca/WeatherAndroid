@@ -29,6 +29,7 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            buildConfigField ("boolean", "ENABLE_HTTP_LOGS", "true")
         }
     }
     compileOptions {

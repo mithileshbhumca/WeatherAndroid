@@ -79,7 +79,7 @@ class WeatherDetailActivity : ComponentActivity() {
         detailViewModel = ViewModelProvider(
             this,
             ViewModelFactory(
-                ApiHelperImpl(RetrofitBuilder.apiService)
+                ApiHelperImpl(RetrofitBuilder.getApiService(this))
             )
         )[WeatherDetailViewModel::class.java]
     }

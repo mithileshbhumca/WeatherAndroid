@@ -7,9 +7,11 @@ import androidx.lifecycle.viewModelScope
 import com.example.weatherforecast.data.network.ApiHelper
 import com.example.weatherforecast.data.repository.UiState
 import com.example.weatherforecast.data.model.WeatherDetailData
+import com.example.weatherforecast.data.network.NetworkConnectionInterceptor
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
+import okio.IOException
 
 class WeatherDetailViewModel(
     private val apiHelper: ApiHelper
@@ -44,6 +46,8 @@ class WeatherDetailViewModel(
                         uiState.postValue(UiState.Error("Error fetching weather data"))
                     }
                 }
+            } catch (e: NetworkConnectionInterceptor.NoConnectivityException) {
+                uiState.postValue(UiState.Error(e.message.toString()))
             } catch (e: Exception) {
                 uiState.postValue(UiState.Error(e.toString()))
             }
