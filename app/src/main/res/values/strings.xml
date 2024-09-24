@@ -9,6 +9,7 @@
     <string name="min_temp_label">Min Temp: %1$.1f°C</string>
     <string name="forecast_5days">5-Day Forecast</string>
     <string name="no_internet_connection">No network available. Please check your connection.</string>
+    <string name="no_internet_connection_no_cache">No network available and no cache data found.</string>
 
 
 </resources>
