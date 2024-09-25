@@ -1,11 +1,11 @@
-package com.example.weatherforecast.data.network
+package com.example.weatherforecast.data.network.interceptor
 
 import android.content.Context
 import com.example.weatherforecast.R
+import com.example.weatherforecast.data.network.NoConnectivityException
 import com.example.weatherforecast.utils.NetworkUtils
 import okhttp3.Interceptor
 import okhttp3.Response
-import okio.IOException
 
 /**
  * If the device is offline, the app will attempt to load the cached data (up to a maximum of 4 weeks).

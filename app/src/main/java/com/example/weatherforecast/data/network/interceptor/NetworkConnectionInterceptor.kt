@@ -1,7 +1,8 @@
-package com.example.weatherforecast.data.network
+package com.example.weatherforecast.data.network.interceptor
 
 import android.content.Context
 import com.example.weatherforecast.R
+import com.example.weatherforecast.data.network.NoConnectivityException
 import com.example.weatherforecast.utils.NetworkUtils
 import okhttp3.CacheControl
 import okhttp3.Interceptor

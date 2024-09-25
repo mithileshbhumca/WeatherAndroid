@@ -1,6 +1,9 @@
 package com.example.weatherforecast.data.network
 
 import android.content.Context
+import com.example.weatherforecast.data.network.interceptor.CacheInterceptor
+import com.example.weatherforecast.data.network.interceptor.NetworkConnectionInterceptor
+import com.example.weatherforecast.data.network.interceptor.RetryInterceptor
 import okhttp3.Cache
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor

@@ -7,10 +7,8 @@ import androidx.lifecycle.viewModelScope
 import com.example.weatherforecast.data.network.ApiHelper
 import com.example.weatherforecast.data.repository.UiState
 import com.example.weatherforecast.data.model.City
-import com.example.weatherforecast.data.network.NetworkConnectionInterceptor
 import com.example.weatherforecast.data.network.NoConnectivityException
 import kotlinx.coroutines.launch
-import okio.IOException
 
 class SearchViewModel(
     private val apiHelper: ApiHelper
