@@ -116,10 +116,10 @@ class WeatherDetailFragment : Fragment() {
     private fun renderData(weatherDetailData: WeatherDetailData) {
         val cityWeather = weatherDetailData.currentWeather
         val cityForeCast = weatherDetailData.weatherForecast
-        locationText.text = cityWeather.name
-        temperatureText.text = String.format("%.1f°C", cityWeather.main?.temp)
-        maxTempText.text = String.format("%.1f°C", cityWeather.main?.tempMax)
-        minTempText.text = String.format("%.1f°C", cityWeather.main?.tempMin)
+        locationText.text = getString(R.string.location, cityWeather.name, cityWeather.sys?.country)
+        temperatureText.text = String.format(getString(R.string._1f_ctemp), cityWeather.main?.temp)
+        maxTempText.text = String.format(getString(R.string.temp_max), cityWeather.main?.tempMax)
+        minTempText.text = String.format(getString(R.string.temp_min), cityWeather.main?.tempMin)
         val icon = cityWeather.weather?.get(0)?.icon
         if (icon != null) {
             loadIcon("$ICON_URL${icon}.png")

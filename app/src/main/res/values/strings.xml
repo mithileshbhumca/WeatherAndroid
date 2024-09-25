@@ -10,6 +10,10 @@
     <string name="forecast_5days">5-Day Forecast</string>
     <string name="no_internet_connection">No network available. Please check your connection.</string>
     <string name="no_internet_connection_no_cache">No network available and no cache data found.</string>
-
-
+    <string name="location">%1$s, %2$s</string>
+    <string name="_1f_ctemp">%.1f°C</string>
+    <string name="temp_max">%.1f°C</string>
+    <string name="temp_min">%.1f°C</string>
+    <string name="max_c">Max: %.1f°C</string>
+    <string name="min_c">Min: %.1f°C</string>
 </resources>

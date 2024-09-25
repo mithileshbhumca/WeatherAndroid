@@ -1,6 +1,5 @@
 package com.example.weatherforecast.ui.home
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -13,17 +12,13 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.weatherforecast.data.model.City
 import com.example.weatherforecast.data.network.ApiHelperImpl
 import com.example.weatherforecast.data.network.RetrofitBuilder
 import com.example.weatherforecast.data.repository.UiState
-import com.example.weatherforecast.ui.viewmodel.ViewModelFactory
-import com.example.weatherforecast.data.model.City
 import com.example.weatherforecast.databinding.FragmentHomeBinding
-import com.example.weatherforecast.ui.details.WeatherDetailFragment
-import com.example.weatherforecast.ui.home.HomeFragmentDirections
-import com.example.weatherforecast.utils.Constants.CITY_LAT
-import com.example.weatherforecast.utils.Constants.CITY_LOG
-import com.example.weatherforecast.utils.Constants.CITY_NAME
+import com.example.weatherforecast.ui.viewmodel.ViewModelFactory
+
 
 class HomeFragment : Fragment() {
 
@@ -55,12 +50,6 @@ class HomeFragment : Fragment() {
         citiesRecyclerView.layoutManager = LinearLayoutManager(requireContext())
         adapter =
             CityAdapter(arrayListOf()) { city ->
-//                val intent = Intent(requireContext(), WeatherDetailFragment::class.java)
-//                intent.putExtra(CITY_LAT, city.lat)
-//                intent.putExtra(CITY_LOG, city.lon)
-//                intent.putExtra(CITY_NAME, city.name)
-//                startActivity(intent)
-
                 val action =
                     com.example.weatherforecast.ui.home.HomeFragmentDirections.actionCitySearchFragmentToWeatherDetailFragment(
                         city.lat!!.toFloat(),
@@ -74,22 +63,21 @@ class HomeFragment : Fragment() {
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 // Handle search query submission
-                Toast.makeText(activity, "Search: $query", Toast.LENGTH_SHORT).show()
+                //Toast.makeText(activity, "Search: $query", Toast.LENGTH_SHORT).show()
                 return true
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
-                if (newText != null && newText.length > 3) {
-                    // Call API to search for cities
+                if (newText.isNullOrEmpty()) {
+                    renderList(emptyList())
+                } else if (newText.length > 3) {
                     searchViewModel.fetchCity(newText)
-
                 }
                 return true
             }
         })
+
     }
-
-
     private fun setupViewModel() {
         val apiService = ApiHelperImpl(RetrofitBuilder.getApiService(requireContext()))
         val factory = ViewModelFactory(apiService)
