@@ -17,7 +17,7 @@ class WeatherDetailViewModel(
 ) : ViewModel() {
     private val uiState = MutableLiveData<UiState<WeatherDetailData>>()
 
-    fun fetchDetails(lat: Double, lon: Double, city: String?) {
+    fun fetchDetails(lat: Double, lon: Double) {
         viewModelScope.launch {
             uiState.postValue(UiState.Loading)
 

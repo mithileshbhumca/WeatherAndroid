@@ -20,6 +20,9 @@ mockito = "3.11.2"
 coroutines-test = "1.5.2"
 core-testing = "2.1.0"
 jacoco = "0.8.8"
+nav-version = "2.7.2"
+material = "1.12.0"
+activity = "1.9.2"
 
 
 [libraries]
@@ -45,6 +48,11 @@ androidx-recyclerview = { group = "androidx.recyclerview", name = "recyclerview"
 androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
 logging-interceptor = { group = "com.squareup.okhttp3", name = "logging-interceptor", version.ref = "logging-interceptor" }
 androidx-cardview = { group = "androidx.cardview", name = "cardview", version.ref = "cardview" }
+androidx-navigation-ktx = { group = "androidx.navigation", name = "navigation-fragment-ktx", version.ref = "nav-version" }
+androidx-navigation-ui-ktx = { group = "androidx.navigation", name = "navigation-ui-ktx", version.ref = "nav-version" }
+androidx-navigation-dynamic = { group = "androidx.navigation", name = "navigation-dynamic-features-fragment", version.ref = "nav-version" }
+
+
 glide = { group = "com.github.bumptech.glide", name = "glide", version.ref = "glide" }
 glide-compiler = { group = "com.github.bumptech.glide", name = "compiler", version.ref = "glide" }
 mockito-core = { group = "org.mockito", name = "mockito-core", version.ref = "mockito" }
@@ -52,8 +60,11 @@ mockito-inline = { group = "org.mockito", name = "mockito-inline", version.ref =
 coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "coroutines-test" }
 core-testing = { group = "androidx.arch.core", name = "core-testing", version.ref = "core-testing" }
 org-jacoco-agent = { group = "org.jacoco", name = "org.jacoco.agent", version.ref = "jacoco" }
+material = { group = "com.google.android.material", name = "material", version.ref = "material" }
+androidx-activity = { group = "androidx.activity", name = "activity", version.ref = "activity" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 jacoco = { id = "jacoco", version.ref = "jacoco" }
+navigation-safeargs = { id = "androidx.navigation.safeargs.kotlin", version.ref = "nav-version" }

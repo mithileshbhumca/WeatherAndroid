@@ -16,7 +16,7 @@
         android:theme="@style/Theme.WeatherForecast"
         tools:targetApi="31">
         <activity
-            android:name=".ui.home.HomeActivity"
+            android:name=".ui.main.MainActivity"
             android:exported="true"
             android:label="@string/app_name"
             android:theme="@style/Theme.WeatherForecast">
@@ -26,11 +26,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
-            android:name=".ui.details.WeatherDetailActivity"
-            android:theme="@style/Theme.WeatherForecast"
-            android:label="@string/weather_detail" />
+            android:name=".ui.details.WeatherDetailFragment"
+            android:label="@string/weather_detail"
+            android:theme="@style/Theme.WeatherForecast" />
     </application>
 
 </manifest>

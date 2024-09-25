@@ -1,12 +1,15 @@
 package com.example.weatherforecast.ui.details
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
-import androidx.activity.ComponentActivity
+import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -19,18 +22,15 @@ import com.example.weatherforecast.ui.viewmodel.ViewModelFactory
 import com.example.weatherforecast.data.model.ThreeHoursWeatherForecast
 import com.example.weatherforecast.data.model.WeatherDetailData
 import com.example.weatherforecast.data.model.WeatherForecast
-import com.example.weatherforecast.databinding.ActivityWeatherDetailBinding
+import com.example.weatherforecast.databinding.FragmentWeatherDetailBinding
 import com.example.weatherforecast.utils.Constants
 import com.example.weatherforecast.utils.Constants.ICON_URL
 import com.example.weatherforecast.utils.FormattingUtil
-import java.text.SimpleDateFormat
 import java.util.LinkedHashMap
-import java.util.Locale
 
+class WeatherDetailFragment : Fragment() {
 
-class WeatherDetailActivity : ComponentActivity() {
-
-    private lateinit var binding: ActivityWeatherDetailBinding
+    private lateinit var binding: FragmentWeatherDetailBinding
 
     private lateinit var detailViewModel: WeatherDetailViewModel
     private lateinit var progressBar: ProgressBar
@@ -43,22 +43,29 @@ class WeatherDetailActivity : ComponentActivity() {
 
     private var forecastAdapter: ForecastAdapter? = null
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityWeatherDetailBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+        // This makes the back button available in the ActionBar
+        (activity as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(true)
+    }
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+
+        binding = FragmentWeatherDetailBinding.inflate(layoutInflater)
+        //  setContentView(binding.root)
         setupUI()
         setupViewModel()
         setupObserver()
 
         // Get city name from the Intent
-        val cityLat = intent.getDoubleExtra(Constants.CITY_LAT, 0.0)
-        val cityLog = intent.getDoubleExtra(Constants.CITY_LOG, 0.0)
-        val cityName = intent.getStringExtra(Constants.CITY_NAME)
+        val cityLat = arguments?.getFloat(Constants.CITY_LAT, 0f)?.toDouble()
+        val cityLog = arguments?.getFloat(Constants.CITY_LOG, 0f)?.toDouble()
         if (cityLat != 0.0 && cityLog != 0.0) {
-            detailViewModel.fetchDetails(cityLat, cityLog, cityName)
+            detailViewModel.fetchDetails(cityLat!!, cityLog!!)
         }
+        return binding.root
     }
 
     private fun setupUI() {
@@ -71,7 +78,7 @@ class WeatherDetailActivity : ComponentActivity() {
         minTempText = binding.minTemp
         weatherIcon = binding.weatherIcon
 
-        recyclerView.setLayoutManager(LinearLayoutManager(this));
+        recyclerView.setLayoutManager(LinearLayoutManager(requireContext()))
 
     }
 
@@ -79,13 +86,13 @@ class WeatherDetailActivity : ComponentActivity() {
         detailViewModel = ViewModelProvider(
             this,
             ViewModelFactory(
-                ApiHelperImpl(RetrofitBuilder.getApiService(this))
+                ApiHelperImpl(RetrofitBuilder.getApiService(requireContext()))
             )
         )[WeatherDetailViewModel::class.java]
     }
 
     private fun setupObserver() {
-        detailViewModel.getUiState().observe(this) {
+        detailViewModel.getUiState().observe(viewLifecycleOwner) {
             when (it) {
                 is UiState.Success -> {
                     progressBar.visibility = View.GONE
@@ -100,7 +107,7 @@ class WeatherDetailActivity : ComponentActivity() {
 
                 is UiState.Error -> {
                     progressBar.visibility = View.GONE
-                    Toast.makeText(this, it.message, Toast.LENGTH_LONG).show()
+                    Toast.makeText(activity, it.message, Toast.LENGTH_LONG).show()
                 }
             }
         }
@@ -109,10 +116,10 @@ class WeatherDetailActivity : ComponentActivity() {
     private fun renderData(weatherDetailData: WeatherDetailData) {
         val cityWeather = weatherDetailData.currentWeather
         val cityForeCast = weatherDetailData.weatherForecast
-        locationText.setText(cityWeather.name);
-        temperatureText.setText(String.format("%.1f°C", cityWeather.main?.temp));
-        maxTempText.setText(String.format("%.1f°C", cityWeather.main?.tempMax));
-        minTempText.setText(String.format("%.1f°C", cityWeather.main?.tempMin));
+        locationText.text = cityWeather.name
+        temperatureText.text = String.format("%.1f°C", cityWeather.main?.temp)
+        maxTempText.text = String.format("%.1f°C", cityWeather.main?.tempMax)
+        minTempText.text = String.format("%.1f°C", cityWeather.main?.tempMin)
         val icon = cityWeather.weather?.get(0)?.icon
         if (icon != null) {
             loadIcon("$ICON_URL${icon}.png")
@@ -120,7 +127,7 @@ class WeatherDetailActivity : ComponentActivity() {
             loadIcon("")
         }
 
-        renderForecast(cityForeCast);
+        renderForecast(cityForeCast)
     }
 
 
@@ -135,8 +142,8 @@ class WeatherDetailActivity : ComponentActivity() {
     private fun renderForecast(cityForeCast: WeatherForecast) {
         val forecastList = getUniqueForecasts(cityForeCast.list!!)
 
-        forecastAdapter = ForecastAdapter(forecastList);
-        recyclerView.setAdapter(forecastAdapter);
+        forecastAdapter = ForecastAdapter(forecastList)
+        recyclerView.setAdapter(forecastAdapter)
     }
 
     private fun getUniqueForecasts(forecastList: List<ThreeHoursWeatherForecast>): List<ThreeHoursWeatherForecast> {
