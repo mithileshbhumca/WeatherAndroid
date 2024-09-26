@@ -3,58 +3,58 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="?android:attr/selectableItemBackground"
-    android:paddingStart="16dp"
-    android:paddingTop="16dp"
-    android:paddingEnd="16dp">
-<LinearLayout
-    android:id="@+id/ll_main"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toTopOf="parent">
+    android:paddingStart="@dimen/dimen_16dp"
+    android:paddingTop="@dimen/dimen_16dp"
+    android:paddingEnd="@dimen/dimen_16dp">
 
     <TextView
         android:id="@+id/dateText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Date"
-        android:textSize="18sp"
-        android:textColor="@color/black" />
+        android:textColor="@color/black"
+        android:textSize="@dimen/dimen_18sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/min_temp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Temp: 25°C"
-        android:textSize="16sp"
-        android:textColor="@color/dark_gray"
-        android:layout_marginTop="4dp" />
- <TextView
+        android:layout_marginTop="@dimen/dimen_5dp"
+        android:text="H:25°C"
+        android:textColor="@color/gray"
+        android:textSize="@dimen/dimen_16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/dateText" />
+
+    <TextView
         android:id="@+id/max_temp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Temp: 25°C"
-        android:textSize="16sp"
-        android:textColor="@color/dark_gray"
-        android:layout_marginTop="4dp" />
-</LinearLayout>
+        android:layout_marginStart="@dimen/dimen_10dp"
+        android:text="L:25°C"
+        android:textColor="@color/gray"
+        android:textSize="@dimen/dimen_16sp"
+        app:layout_constraintBottom_toBottomOf="@+id/min_temp"
+        app:layout_constraintStart_toEndOf="@+id/min_temp"
+        app:layout_constraintTop_toTopOf="@+id/min_temp" />
 
     <ImageView
         android:id="@+id/weather_icon"
         android:layout_width="80dp"
         android:layout_height="80dp"
         android:contentDescription="Weather Icon"
-        android:paddingEnd="16dp"
+        android:paddingEnd="@dimen/dimen_16dp"
         android:src="@drawable/ic_broken_image"
-        app:layout_constraintBottom_toBottomOf="@+id/ll_main"
+        app:layout_constraintBottom_toBottomOf="@+id/min_temp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/ll_main" />
+        app:layout_constraintTop_toTopOf="@+id/dateText" />
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="@dimen/dimen_16dp"
         android:background="@android:color/darker_gray"
-        app:layout_constraintTop_toBottomOf="@+id/ll_main" />
+        app:layout_constraintTop_toBottomOf="@+id/min_temp" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -13,6 +13,7 @@ import com.example.weatherforecast.data.model.ThreeHoursWeatherForecast
 import com.example.weatherforecast.databinding.ItemForecastBinding
 import com.example.weatherforecast.utils.Constants
 import com.example.weatherforecast.utils.FormattingUtil
+import kotlin.math.roundToInt
 
 class ForecastAdapter(private val forecastList: List<ThreeHoursWeatherForecast>?) :
     RecyclerView.Adapter<ForecastAdapter.ForecastViewHolder>() {
@@ -42,9 +43,9 @@ class ForecastAdapter(private val forecastList: List<ThreeHoursWeatherForecast>?
         fun bind(item: ThreeHoursWeatherForecast?) {
             dateText.text = FormattingUtil.getDateFormatEEE(item?.dt)
             maxTempTextView.text =
-                String.format(mContext.getString(R.string.max_c), item?.main?.tempMax)
+                String.format(mContext.getString(R.string.max_c), item?.main?.tempMax?.roundToInt())
             minTempTextView.text =
-                String.format(mContext.getString(R.string.min_c), item?.main?.tempMin)
+                String.format(mContext.getString(R.string.min_c), item?.main?.tempMin?.roundToInt())
 
             val iconUrl = "${Constants.ICON_URL}${item?.weather!![0].icon}.png"
 

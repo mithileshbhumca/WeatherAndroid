@@ -27,6 +27,7 @@ import com.example.weatherforecast.utils.Constants
 import com.example.weatherforecast.utils.Constants.ICON_URL
 import com.example.weatherforecast.utils.FormattingUtil
 import java.util.LinkedHashMap
+import kotlin.math.roundToInt
 
 class WeatherDetailFragment : Fragment() {
 
@@ -36,6 +37,8 @@ class WeatherDetailFragment : Fragment() {
     private lateinit var progressBar: ProgressBar
     private lateinit var recyclerView: RecyclerView
     private lateinit var locationText: TextView
+    private lateinit var cloudDescText: TextView
+    private lateinit var locationTimeText: TextView
     private lateinit var temperatureText: TextView
     private lateinit var maxTempText: TextView
     private lateinit var minTempText: TextView
@@ -73,6 +76,8 @@ class WeatherDetailFragment : Fragment() {
         recyclerView = binding.forecastRecyclerView
 
         locationText = binding.location
+        locationTimeText = binding.locTime
+        cloudDescText = binding.cloudDesc
         temperatureText = binding.temperature
         maxTempText = binding.maxTemp
         minTempText = binding.minTemp
@@ -117,9 +122,14 @@ class WeatherDetailFragment : Fragment() {
         val cityWeather = weatherDetailData.currentWeather
         val cityForeCast = weatherDetailData.weatherForecast
         locationText.text = getString(R.string.location, cityWeather.name, cityWeather.sys?.country)
-        temperatureText.text = String.format(getString(R.string._1f_ctemp), cityWeather.main?.temp)
-        maxTempText.text = String.format(getString(R.string.temp_max), cityWeather.main?.tempMax)
-        minTempText.text = String.format(getString(R.string.temp_min), cityWeather.main?.tempMin)
+        cloudDescText.text = cityWeather.weather?.get(0)?.description
+        locationTimeText.text = FormattingUtil.getDateFormatEEE(cityWeather.dt)
+        temperatureText.text =
+            String.format(getString(R.string._1f_ctemp), cityWeather.main?.temp?.roundToInt())
+        maxTempText.text =
+            String.format(getString(R.string.temp_max), cityWeather.main?.tempMax?.roundToInt())
+        minTempText.text =
+            String.format(getString(R.string.temp_min), cityWeather.main?.tempMin?.roundToInt())
         val icon = cityWeather.weather?.get(0)?.icon
         if (icon != null) {
             loadIcon("$ICON_URL${icon}.png")

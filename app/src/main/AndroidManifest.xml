@@ -26,10 +26,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".ui.details.WeatherDetailFragment"
-            android:label="@string/weather_detail"
-            android:theme="@style/Theme.WeatherForecast" />
+
     </application>
 
 </manifest>

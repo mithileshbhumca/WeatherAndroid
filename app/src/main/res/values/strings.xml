@@ -11,9 +11,9 @@
     <string name="no_internet_connection">No network available. Please check your connection.</string>
     <string name="no_internet_connection_no_cache">No network available and no cache data found.</string>
     <string name="location">%1$s, %2$s</string>
-    <string name="_1f_ctemp">%.1f°C</string>
-    <string name="temp_max">%.1f°C</string>
-    <string name="temp_min">%.1f°C</string>
-    <string name="max_c">Max: %.1f°C</string>
-    <string name="min_c">Min: %.1f°C</string>
+    <string name="_1f_ctemp">%d°C</string>
+    <string name="temp_max">H:%d°C</string>
+    <string name="temp_min">L:%d°C</string>
+    <string name="max_c">H:%d°C</string>
+    <string name="min_c">L:%d°C</string>
 </resources>

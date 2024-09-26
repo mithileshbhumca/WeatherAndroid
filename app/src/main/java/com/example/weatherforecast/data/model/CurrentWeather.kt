@@ -10,7 +10,7 @@ data class CurrentWeather(
         @SerializedName("wind") val wind: Wind? = null,
         @SerializedName("clouds") val clouds: Clouds? = null,
         @SerializedName("rain") val rain: Rain? = null,
-        @SerializedName("dt") val dt: Int? = 0,
+        @SerializedName("dt") val dt: Long? = 0L,
         @SerializedName("sys") val sys: Sys? = null,
         @SerializedName("id") val id: Int? = 0,
         @SerializedName("name") val name: String? = null,
