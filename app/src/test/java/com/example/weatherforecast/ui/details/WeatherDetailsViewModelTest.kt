@@ -2,11 +2,12 @@ package com.example.weatherforecast.ui.details
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
-import com.example.weatherforecast.data.network.ApiHelper
 import com.example.weatherforecast.domain.repository.UiState
 import com.example.weatherforecast.data.model.CurrentWeather
 import com.example.weatherforecast.data.model.WeatherDetailData
 import com.example.weatherforecast.data.model.WeatherForecast
+import com.example.weatherforecast.domain.usecase.GetForecastUseCase
+import com.example.weatherforecast.domain.usecase.GetWeatherUseCase
 import com.example.weatherforecast.utils.TestCoroutineRule
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.*
@@ -27,7 +28,10 @@ class WeatherDetailViewModelTest {
     val testCoroutineRule = TestCoroutineRule()
 
     @Mock
-    private lateinit var apiHelper: ApiHelper
+    private lateinit var weatherUseCase: GetWeatherUseCase
+
+    @Mock
+    private lateinit var forecastUseCase: GetForecastUseCase
 
     @Mock
     private lateinit var uiStateObserver: Observer<UiState<WeatherDetailData>>
@@ -35,7 +39,7 @@ class WeatherDetailViewModelTest {
 
     @Before
     fun setUp() {
-        viewModel = WeatherDetailViewModel(apiHelper)
+        viewModel = WeatherDetailViewModel(weatherUseCase, forecastUseCase)
     }
 
     @Test
@@ -45,17 +49,17 @@ class WeatherDetailViewModelTest {
 
         testCoroutineRule.runBlockingTest {
             Mockito.doReturn(mockCurrentWeather)
-                .`when`(apiHelper)
-                .getCurrentWeather(0.0, 0.0)
+                .`when`(weatherUseCase)
+                .execute(0.0, 0.0)
 
             Mockito.doReturn(mockWeatherForecast)
-                .`when`(apiHelper)
-                .getWeatherForecast(0.0, 0.0)
+                .`when`(forecastUseCase)
+                .execute(0.0, 0.0)
 
             viewModel.getUiState().observeForever(uiStateObserver)
-            viewModel.fetchDetails(0.0, 0.0, "")
-            Mockito.verify(apiHelper).getCurrentWeather(0.0,0.0)
-             Mockito.verify(apiHelper).getWeatherForecast(0.0, 0.0)
+            viewModel.fetchDetails(0.0, 0.0)
+            Mockito.verify(weatherUseCase).execute(0.0, 0.0)
+            Mockito.verify(forecastUseCase).execute(0.0, 0.0)
 
             Mockito.verify(uiStateObserver, Mockito.times(2))
                 .onChanged(UiState.Success(Mockito.any()))
@@ -68,11 +72,11 @@ class WeatherDetailViewModelTest {
             val errorMessage = "Error Message"
 
             Mockito.doThrow(RuntimeException(errorMessage))
-                .`when`(apiHelper)
-                .getCurrentWeather(0.0, 0.0)
+                .`when`(weatherUseCase)
+                .execute(0.0, 0.0)
 
             viewModel.getUiState().observeForever(uiStateObserver)
-            viewModel.fetchDetails(0.0, 0.0, "")
+            viewModel.fetchDetails(0.0, 0.0)
 
             Mockito.verify(uiStateObserver).onChanged(
                 UiState.Error(RuntimeException(errorMessage).toString())

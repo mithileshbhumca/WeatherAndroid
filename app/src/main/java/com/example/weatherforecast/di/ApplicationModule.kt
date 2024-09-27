@@ -2,19 +2,15 @@ package com.example.weatherforecast.di
 
 import android.app.Application
 import android.content.Context
-import com.example.weatherforecast.data.network.InternetMonitor
 import com.example.weatherforecast.data.network.NetworkBuilder
 import com.example.weatherforecast.data.network.interceptor.CacheInterceptor
 import com.example.weatherforecast.data.network.interceptor.NetworkConnectionInterceptor
 import com.example.weatherforecast.domain.repository.IIWeatherRepository
 import com.example.weatherforecast.domain.repository.WeatherRepository
-import com.example.weatherforecast.ui.WeatherApp
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import javax.inject.Inject
-import javax.inject.Named
 import javax.inject.Singleton
 
 @Module

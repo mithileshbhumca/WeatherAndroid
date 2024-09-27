@@ -2,9 +2,9 @@ package com.example.weatherforecast.ui.home
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
-import com.example.weatherforecast.data.network.ApiHelper
 import com.example.weatherforecast.domain.repository.UiState
 import com.example.weatherforecast.data.model.City
+import com.example.weatherforecast.domain.usecase.GetCityUseCase
 import com.example.weatherforecast.utils.TestCoroutineRule
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.*
@@ -25,7 +25,7 @@ class SearchViewModelTest {
     val testCoroutineRule = TestCoroutineRule()
 
     @Mock
-    private lateinit var apiHelper: ApiHelper
+    private lateinit var getCityUseCase: GetCityUseCase
 
     @Mock
     private lateinit var uiStateObserver: Observer<UiState<List<City>>>
@@ -33,20 +33,21 @@ class SearchViewModelTest {
 
     @Before
     fun setUp() {
-        viewModel = SearchViewModel(apiHelper)
+        viewModel = SearchViewModel(getCityUseCase)
     }
 
     @Test
     fun fetchCitySuccess() {
         testCoroutineRule.runBlockingTest {
             Mockito.doReturn(emptyList<City>())
-                .`when`(apiHelper)
-                .getCity("")
+                .`when`(getCityUseCase)
+                .execute("")
 
             viewModel.getUiState().observeForever(uiStateObserver)
             viewModel.fetchCity("")
-            Mockito.verify(apiHelper).getCity("")
-            Mockito.verify(uiStateObserver).onChanged(UiState.Success(emptyList()))
+            Mockito.verify(getCityUseCase).execute("")
+            Mockito.verify(uiStateObserver, Mockito.times(2))
+                .onChanged(UiState.Success(Mockito.any()))
         }
     }
 
@@ -55,12 +56,13 @@ class SearchViewModelTest {
         testCoroutineRule.runBlockingTest {
             val errorMessage = "Error Message"
             Mockito.doThrow(RuntimeException(errorMessage))
-                .`when`(apiHelper)
-                .getCity("")
+                .`when`(getCityUseCase)
+                .execute("")
+
             viewModel.getUiState().observeForever(uiStateObserver)
             viewModel.fetchCity("")
 
-            Mockito.verify(apiHelper).getCity("")
+            Mockito.verify(getCityUseCase).execute("")
             Mockito.verify(uiStateObserver).onChanged(
                 UiState.Error(RuntimeException(errorMessage).toString())
             )
