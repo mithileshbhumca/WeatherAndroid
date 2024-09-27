@@ -8,21 +8,19 @@ import android.widget.ProgressBar
 import android.widget.SearchView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.weatherforecast.data.model.City
-import com.example.weatherforecast.data.network.ApiHelperImpl
-import com.example.weatherforecast.data.network.RetrofitBuilder
 import com.example.weatherforecast.data.repository.UiState
 import com.example.weatherforecast.databinding.FragmentHomeBinding
-import com.example.weatherforecast.ui.viewmodel.ViewModelFactory
+import dagger.hilt.android.AndroidEntryPoint
 
-
+@AndroidEntryPoint
 class HomeFragment : Fragment() {
 
-    private lateinit var searchViewModel: SearchViewModel
+    private val searchViewModel: SearchViewModel by viewModels()
 
     private lateinit var adapter: CityAdapter
 
@@ -79,12 +77,12 @@ class HomeFragment : Fragment() {
 
     }
     private fun setupViewModel() {
-        val apiService = ApiHelperImpl(RetrofitBuilder.getApiService(requireContext()))
-        val factory = ViewModelFactory(apiService)
-        searchViewModel = ViewModelProvider(
-            this,
-            factory
-        )[SearchViewModel::class.java]
+       // val apiService = ApiHelperImpl(RetrofitBuilder.getApiService(requireContext()))
+       // val factory = ViewModelFactory(apiService)
+//        searchViewModel = ViewModelProvider(
+//            this,
+//            factory
+//        )[SearchViewModel::class.java]
     }
 
 

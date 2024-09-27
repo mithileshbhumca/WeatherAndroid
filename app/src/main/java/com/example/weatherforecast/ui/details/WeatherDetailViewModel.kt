@@ -8,11 +8,14 @@ import com.example.weatherforecast.data.network.ApiHelper
 import com.example.weatherforecast.data.repository.UiState
 import com.example.weatherforecast.data.model.WeatherDetailData
 import com.example.weatherforecast.data.network.NoConnectivityException
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class WeatherDetailViewModel(
+@HiltViewModel
+class WeatherDetailViewModel @Inject constructor(
     private val apiHelper: ApiHelper
 ) : ViewModel() {
     private val uiState = MutableLiveData<UiState<WeatherDetailData>>()

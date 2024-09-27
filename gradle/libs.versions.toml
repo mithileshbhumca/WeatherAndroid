@@ -23,8 +23,8 @@ jacoco = "0.8.8"
 nav-version = "2.7.2"
 material = "1.12.0"
 activity = "1.9.2"
-
-
+hilt-version = "2.51.1"
+kotlin-ksp="1.9.0-1.0.12"
 [libraries]
 retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
 retrofit-converter-gson= { group = "com.squareup.retrofit2", name = "converter-gson", version.ref = "retrofit" }
@@ -63,8 +63,16 @@ org-jacoco-agent = { group = "org.jacoco", name = "org.jacoco.agent", version.re
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 androidx-activity = { group = "androidx.activity", name = "activity", version.ref = "activity" }
 
+dagger-compiler = { module = "com.google.dagger:dagger-compiler", version.ref = "hilt-version" }
+hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hilt-version" }
+hilt-compiler = { module = "com.google.dagger:hilt-compiler", version.ref = "hilt-version" }
+
+
+
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 jacoco = { id = "jacoco", version.ref = "jacoco" }
 navigation-safeargs = { id = "androidx.navigation.safeargs.kotlin", version.ref = "nav-version" }
+hilt-android = { id = "com.google.dagger.hilt.android", version.ref = "hilt-version" }
+jetbrains-kotlin-ksp = { id = "com.google.devtools.ksp", version.ref = "kotlin-ksp" }

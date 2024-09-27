@@ -10,15 +10,12 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.weatherforecast.R
-import com.example.weatherforecast.data.network.ApiHelperImpl
-import com.example.weatherforecast.data.network.RetrofitBuilder
 import com.example.weatherforecast.data.repository.UiState
-import com.example.weatherforecast.ui.viewmodel.ViewModelFactory
 import com.example.weatherforecast.data.model.ThreeHoursWeatherForecast
 import com.example.weatherforecast.data.model.WeatherDetailData
 import com.example.weatherforecast.data.model.WeatherForecast
@@ -26,14 +23,18 @@ import com.example.weatherforecast.databinding.FragmentWeatherDetailBinding
 import com.example.weatherforecast.utils.Constants
 import com.example.weatherforecast.utils.Constants.ICON_URL
 import com.example.weatherforecast.utils.FormattingUtil
+import dagger.hilt.android.AndroidEntryPoint
 import java.util.LinkedHashMap
 import kotlin.math.roundToInt
 
+@AndroidEntryPoint
 class WeatherDetailFragment : Fragment() {
 
     private lateinit var binding: FragmentWeatherDetailBinding
 
-    private lateinit var detailViewModel: WeatherDetailViewModel
+    //private lateinit var detailViewModel: WeatherDetailViewModel
+    private val detailViewModel: WeatherDetailViewModel by viewModels()
+
     private lateinit var progressBar: ProgressBar
     private lateinit var recyclerView: RecyclerView
     private lateinit var locationText: TextView
@@ -57,11 +58,9 @@ class WeatherDetailFragment : Fragment() {
     ): View {
 
         binding = FragmentWeatherDetailBinding.inflate(layoutInflater)
-        //  setContentView(binding.root)
         setupUI()
-        setupViewModel()
+        // setupViewModel()
         setupObserver()
-
         // Get city name from the Intent
         val cityLat = arguments?.getFloat(Constants.CITY_LAT, 0f)?.toDouble()
         val cityLog = arguments?.getFloat(Constants.CITY_LOG, 0f)?.toDouble()
@@ -87,14 +86,14 @@ class WeatherDetailFragment : Fragment() {
 
     }
 
-    private fun setupViewModel() {
-        detailViewModel = ViewModelProvider(
-            this,
-            ViewModelFactory(
-                ApiHelperImpl(RetrofitBuilder.getApiService(requireContext()))
-            )
-        )[WeatherDetailViewModel::class.java]
-    }
+//    private fun setupViewModel() {
+//        detailViewModel = ViewModelProvider(
+//            this,
+//            ViewModelFactory(
+//                ApiHelperImpl(RetrofitModule.getApiService(requireContext()))
+//            )
+//        )[WeatherDetailViewModel::class.java]
+//    }
 
     private fun setupObserver() {
         detailViewModel.getUiState().observe(viewLifecycleOwner) {
