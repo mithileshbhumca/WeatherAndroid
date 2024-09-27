@@ -13,7 +13,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.weatherforecast.data.model.City
-import com.example.weatherforecast.data.repository.UiState
+import com.example.weatherforecast.domain.repository.UiState
 import com.example.weatherforecast.databinding.FragmentHomeBinding
 import dagger.hilt.android.AndroidEntryPoint
 

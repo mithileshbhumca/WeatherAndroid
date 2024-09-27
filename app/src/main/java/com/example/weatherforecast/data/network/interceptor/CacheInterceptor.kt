@@ -1,23 +1,24 @@
 package com.example.weatherforecast.data.network.interceptor
 
-import android.content.Context
-import com.example.weatherforecast.R
 import com.example.weatherforecast.data.network.NoConnectivityException
-import com.example.weatherforecast.utils.NetworkUtils
+import com.example.weatherforecast.data.network.InternetMonitor
 import okhttp3.Interceptor
 import okhttp3.Response
+import javax.inject.Inject
 
 /**
  * If the device is offline, the app will attempt to load the cached data (up to a maximum of 4 weeks).
  * If the device is online, the cached response will be used for up to 5 minutes before making a new network request.
  * we can configure the max-age (online cache) and max-stale (offline cache) durations based on our app’s needs.
  */
-class CacheInterceptor(private val context: Context) : Interceptor {
+class CacheInterceptor @Inject constructor(
+    private val internetMonitor: InternetMonitor,
+) : Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
         var request = chain.request()
 
         // If there’s no network connection, forcefully load from cache
-        if (!NetworkUtils.isNetworkAvailable(context)) {
+        if (!internetMonitor.isNetworkAvailable()) {
             request = request.newBuilder()
                 .header(
                     "Cache-Control",
@@ -31,7 +32,8 @@ class CacheInterceptor(private val context: Context) : Interceptor {
                 return cachedResponse
             } else {
                 // No cache available, throw an exception
-                throw NoConnectivityException(context.getString(R.string.no_internet_connection))
+                throw NoConnectivityException("No network available. Please check your connection.")
+
             }
 
         }

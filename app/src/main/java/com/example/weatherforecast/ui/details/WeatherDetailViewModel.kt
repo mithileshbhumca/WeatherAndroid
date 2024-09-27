@@ -4,10 +4,11 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.weatherforecast.data.network.ApiHelper
-import com.example.weatherforecast.data.repository.UiState
+import com.example.weatherforecast.domain.repository.UiState
 import com.example.weatherforecast.data.model.WeatherDetailData
 import com.example.weatherforecast.data.network.NoConnectivityException
+import com.example.weatherforecast.domain.usecase.GetForecastUseCase
+import com.example.weatherforecast.domain.usecase.GetWeatherUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
@@ -16,7 +17,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class WeatherDetailViewModel @Inject constructor(
-    private val apiHelper: ApiHelper
+    private val mGetWeatherUseCase: GetWeatherUseCase,
+    private val mGetForecastUseCase: GetForecastUseCase
 ) : ViewModel() {
     private val uiState = MutableLiveData<UiState<WeatherDetailData>>()
 
@@ -27,10 +29,10 @@ class WeatherDetailViewModel @Inject constructor(
             try {
                 coroutineScope {
 
-                    val currentWeatherResponse = async { apiHelper.getCurrentWeather(lat, lon) }
+                    val currentWeatherResponse = async { mGetWeatherUseCase.execute(lat, lon) }
 
                     val forecastResponse =
-                        async { apiHelper.getWeatherForecast(lat, lon) }
+                        async { mGetForecastUseCase.execute(lat, lon) }
 
                     val getCurrentWeather = currentWeatherResponse.await()
 

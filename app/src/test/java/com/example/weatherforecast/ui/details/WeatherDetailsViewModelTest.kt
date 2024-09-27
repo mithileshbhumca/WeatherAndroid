@@ -3,7 +3,7 @@ package com.example.weatherforecast.ui.details
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
 import com.example.weatherforecast.data.network.ApiHelper
-import com.example.weatherforecast.data.repository.UiState
+import com.example.weatherforecast.domain.repository.UiState
 import com.example.weatherforecast.data.model.CurrentWeather
 import com.example.weatherforecast.data.model.WeatherDetailData
 import com.example.weatherforecast.data.model.WeatherForecast

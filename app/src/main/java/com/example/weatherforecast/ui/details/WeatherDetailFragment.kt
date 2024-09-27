@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.weatherforecast.R
-import com.example.weatherforecast.data.repository.UiState
+import com.example.weatherforecast.domain.repository.UiState
 import com.example.weatherforecast.data.model.ThreeHoursWeatherForecast
 import com.example.weatherforecast.data.model.WeatherDetailData
 import com.example.weatherforecast.data.model.WeatherForecast

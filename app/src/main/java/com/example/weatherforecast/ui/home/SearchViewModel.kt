@@ -4,17 +4,17 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.weatherforecast.data.network.ApiHelper
-import com.example.weatherforecast.data.repository.UiState
+import com.example.weatherforecast.domain.repository.UiState
 import com.example.weatherforecast.data.model.City
 import com.example.weatherforecast.data.network.NoConnectivityException
+import com.example.weatherforecast.domain.usecase.GetCityUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class SearchViewModel  @Inject constructor(
-    private val apiHelper: ApiHelper
+    private val mGetCityUseCase: GetCityUseCase
 ) : ViewModel() {
     private val uiState = MutableLiveData<UiState<List<City>>>()
 
@@ -22,7 +22,7 @@ class SearchViewModel  @Inject constructor(
         viewModelScope.launch {
             uiState.postValue(UiState.Loading)
             try {
-                val response = apiHelper.getCity(cityName)
+                val response = mGetCityUseCase.execute(cityName)
                 if (response.isSuccessful && response.body() != null) {
                     uiState.postValue(UiState.Success(response.body()!!))
                 } else {
