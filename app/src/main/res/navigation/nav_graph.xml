@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/homeFragment">
+
+    <!-- City Search Fragment -->
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.example.weatherforecast.ui.home.HomeFragment"
+        android:label="Weather location"
+        tools:layout="@layout/fragment_home">
+        <action
+            android:id="@+id/action_citySearchFragment_to_weatherDetailFragment"
+            app:destination="@id/cityDetailFragment"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left" />
+    </fragment>
+
+    <!-- City Detail Fragment
+   argType supports a limited set of types for arguments, including int, float, boolean, String, and Parcelable.
+    -->
+    <fragment
+        android:id="@+id/cityDetailFragment"
+        android:name="com.example.weatherforecast.ui.details.WeatherDetailFragment"
+        android:label="Weather details"
+        tools:layout="@layout/fragment_weather_detail">
+        <argument
+            android:name="CITY_LAT"
+            app:argType="float" />
+        <argument
+            android:name="CITY_LOG"
+            app:argType="float" />
+    </fragment>
+</navigation>
