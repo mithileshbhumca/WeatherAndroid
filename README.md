@@ -20,6 +20,8 @@ Weather App is a simple Android application that allows users to get current wea
 - **View Binding**: The app uses view binding for easier interaction with views.
 - **View Model**: The app uses View model for easier communication with views and data sources.
 - **Retrofit**: Network requests are handled using Retrofit, a type-safe HTTP client.
+- **Hilt**: Used for dependency injection to simplify the process of providing dependencies in Android components like Activities, Fragments, and ViewModels.
+- **Navigation Component**:Handles in-app navigation, making fragment transitions, argument passing, and deep linking easier with a visual navigation graph.
   
 - **Architecture: MVVM (Model-View-ViewModel)**:
 This project follows the **MVVM** (Model-View-ViewModel) architecture pattern to separate concerns and create a scalable and maintainable application structure. Below is an overview of the architecture and how it’s applied in this project.
@@ -51,7 +53,7 @@ Make sure you have the following installed:
 ## Project Structure
 The project follows MVVM clean architecture to separate UI and data 
 
-![project](https://github.com/user-attachments/assets/e27a9386-c265-42ae-80d3-72b78cb0a67d)
+![project_flow](https://github.com/user-attachments/assets/a2b44996-18fc-43d6-89e7-f4282a5ecaf9)
 
 ## How to Generate Test Report in Android Studio
 
@@ -72,11 +74,12 @@ Unit tests are run on your local machine and are usually located in the `src/tes
 ## App Screenshot
   ##Screen1 When we open app show simple screen to search city name for weather details, its showing all available city matched with typed text
   
-   ![weather1](https://github.com/user-attachments/assets/b71195d5-0c78-49f3-a0e3-f4b1af5a1ab1)
+   ![screen1](https://github.com/user-attachments/assets/833121f5-2d48-408d-b1d9-c3f87415425d)
 
     ##Screen2 Once click on any city from screen1, then navigate to screen2 for city weather details, showing current temp, and five days forecast data
 
-   ![weather2](https://github.com/user-attachments/assets/54b3e1f3-9652-43a8-89b1-dbefe3b557bf)
+   ![screen2](https://github.com/user-attachments/assets/e10f6143-9d46-4658-9c1b-1c0b6d7f7222)
+
 
 
 
