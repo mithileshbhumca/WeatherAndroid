@@ -35,7 +35,6 @@ class HomeFragment : Fragment() {
     ): View {
         binding = FragmentHomeBinding.inflate(layoutInflater)
         setupUI()
-        setupViewModel()
         setupObserver()
 
         return binding.root
@@ -61,7 +60,6 @@ class HomeFragment : Fragment() {
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 // Handle search query submission
-                //Toast.makeText(activity, "Search: $query", Toast.LENGTH_SHORT).show()
                 return true
             }
 
@@ -76,15 +74,6 @@ class HomeFragment : Fragment() {
         })
 
     }
-    private fun setupViewModel() {
-       // val apiService = ApiHelperImpl(RetrofitBuilder.getApiService(requireContext()))
-       // val factory = ViewModelFactory(apiService)
-//        searchViewModel = ViewModelProvider(
-//            this,
-//            factory
-//        )[SearchViewModel::class.java]
-    }
-
 
     private fun setupObserver() {
         searchViewModel.getUiState().observe(viewLifecycleOwner) {

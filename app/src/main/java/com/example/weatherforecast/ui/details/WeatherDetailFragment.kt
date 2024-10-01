@@ -32,7 +32,6 @@ class WeatherDetailFragment : Fragment() {
 
     private lateinit var binding: FragmentWeatherDetailBinding
 
-    //private lateinit var detailViewModel: WeatherDetailViewModel
     private val detailViewModel: WeatherDetailViewModel by viewModels()
 
     private lateinit var progressBar: ProgressBar
@@ -59,7 +58,6 @@ class WeatherDetailFragment : Fragment() {
 
         binding = FragmentWeatherDetailBinding.inflate(layoutInflater)
         setupUI()
-        // setupViewModel()
         setupObserver()
         // Get city name from the Intent
         val cityLat = arguments?.getFloat(Constants.CITY_LAT, 0f)?.toDouble()
@@ -85,15 +83,6 @@ class WeatherDetailFragment : Fragment() {
         recyclerView.setLayoutManager(LinearLayoutManager(requireContext()))
 
     }
-
-//    private fun setupViewModel() {
-//        detailViewModel = ViewModelProvider(
-//            this,
-//            ViewModelFactory(
-//                ApiHelperImpl(RetrofitModule.getApiService(requireContext()))
-//            )
-//        )[WeatherDetailViewModel::class.java]
-//    }
 
     private fun setupObserver() {
         detailViewModel.getUiState().observe(viewLifecycleOwner) {
