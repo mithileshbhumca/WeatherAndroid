@@ -2,6 +2,7 @@ package com.example.weatherforecast.di
 
 import android.app.Application
 import android.content.Context
+import com.example.weatherforecast.data.network.ApiService
 import com.example.weatherforecast.data.network.NetworkBuilder
 import com.example.weatherforecast.data.network.interceptor.CacheInterceptor
 import com.example.weatherforecast.data.network.interceptor.NetworkConnectionInterceptor
@@ -11,6 +12,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import retrofit2.Retrofit
 import javax.inject.Singleton
 
 @Module
@@ -24,9 +26,21 @@ class ApplicationModule {
     }
 
     @Provides
+    @Singleton
+    fun provideRetrofit(networkBuilder: NetworkBuilder): Retrofit {
+        return networkBuilder.getRetrofit()
+    }
+
+    @Provides
+    @Singleton
+    fun provideApiService(retrofit: Retrofit): ApiService {
+        return retrofit.create(ApiService::class.java)
+    }
+
+    @Provides
     @Singleton //no need this
-    fun provideWeatherRepository(networkClient: NetworkBuilder): IIWeatherRepository {
-        return WeatherRepository(networkClient)
+    fun provideWeatherRepository(apiService: ApiService): IIWeatherRepository {
+        return WeatherRepository(apiService)
     }
 
     @Provides
