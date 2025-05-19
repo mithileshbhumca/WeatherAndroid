@@ -3,10 +3,11 @@ package com.example.weatherforecast.domain.repository
 import com.example.weatherforecast.data.model.City
 import com.example.weatherforecast.data.model.CurrentWeather
 import com.example.weatherforecast.data.model.WeatherForecast
+import kotlinx.coroutines.flow.Flow
 import retrofit2.Response
 
 interface IIWeatherRepository {
-    suspend fun getCity(cityAndCountry: String): Response<List<City>>
-    suspend fun getWeatherForecast(lat: Double, lon: Double): Response<WeatherForecast>
-    suspend fun getCurrentWeather(lat: Double, lon: Double): Response<CurrentWeather>
+    fun getCity(cityAndCountry: String): Flow<Response<List<City>>>
+    fun getWeatherForecast(lat: Double, lon: Double): Flow<Response<WeatherForecast>>
+    fun getCurrentWeather(lat: Double, lon: Double): Flow<Response<CurrentWeather>>
 }

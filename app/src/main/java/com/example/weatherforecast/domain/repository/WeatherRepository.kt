@@ -1,12 +1,8 @@
 package com.example.weatherforecast.domain.repository
 
 import com.example.weatherforecast.BuildConfig
-import com.example.weatherforecast.data.model.City
-import com.example.weatherforecast.data.model.CurrentWeather
-import com.example.weatherforecast.data.model.WeatherForecast
 import com.example.weatherforecast.data.network.ApiService
-import com.example.weatherforecast.data.network.NetworkBuilder
-import retrofit2.Response
+import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
 class WeatherRepository @Inject constructor(
@@ -17,22 +13,23 @@ class WeatherRepository @Inject constructor(
         private const val API_KEY = BuildConfig.WEATHER_API_APP_ID
     }
 
-    override suspend fun getCity(cityAndCountry: String): Response<List<City>> {
-        return apiService.getCities(cityAndCountry, apiKey = API_KEY)
+    override fun getCity(cityAndCountry: String) = flow {
+        emit(apiService.getCities(cityAndCountry, apiKey = API_KEY))
     }
 
-    override suspend fun getWeatherForecast(lat: Double, lon: Double): Response<WeatherForecast> {
-        return apiService.getWeatherForecast(
-            lat,
-            lon,
-            UNITS,
-            apiKey = API_KEY
+    override fun getWeatherForecast(lat: Double, lon: Double) = flow {
+        emit(
+            apiService.getWeatherForecast(
+                lat,
+                lon,
+                UNITS,
+                apiKey = API_KEY
+            )
         )
     }
 
 
-    override suspend fun getCurrentWeather(lat: Double, lon: Double): Response<CurrentWeather> {
-        //return networkBuilder.getRetrofit().create(ApiService::class.java) //old way..inject through Hilt
-        return apiService.getCurrentWeather(lat, lon, UNITS, API_KEY)
+    override fun getCurrentWeather(lat: Double, lon: Double) = flow {
+        emit(apiService.getCurrentWeather(lat, lon, UNITS, API_KEY))
     }
 }

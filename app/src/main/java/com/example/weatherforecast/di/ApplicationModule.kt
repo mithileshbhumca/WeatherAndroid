@@ -8,6 +8,8 @@ import com.example.weatherforecast.data.network.interceptor.CacheInterceptor
 import com.example.weatherforecast.data.network.interceptor.NetworkConnectionInterceptor
 import com.example.weatherforecast.domain.repository.IIWeatherRepository
 import com.example.weatherforecast.domain.repository.WeatherRepository
+import com.example.weatherforecast.utils.DefaultDispatcherProvider
+import com.example.weatherforecast.utils.DispatcherProvider
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -52,5 +54,9 @@ class ApplicationModule {
     ): NetworkBuilder {
         return NetworkBuilder(networkConnectionInterceptor, cacheInterceptor, context)
     }
-
+    @Singleton
+    @Provides
+    fun provideDispatcherProvider(): DispatcherProvider {
+        return DefaultDispatcherProvider()
+    }
 }

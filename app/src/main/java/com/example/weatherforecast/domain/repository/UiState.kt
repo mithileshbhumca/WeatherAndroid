@@ -8,4 +8,5 @@ sealed interface UiState<out T> {
 
     object Loading : UiState<Nothing>
 
+    object Idle : UiState<Nothing>
 }
