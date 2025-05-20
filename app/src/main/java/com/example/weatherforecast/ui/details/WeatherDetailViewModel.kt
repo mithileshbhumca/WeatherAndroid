@@ -9,8 +9,6 @@ import com.example.weatherforecast.domain.usecase.GetForecastUseCase
 import com.example.weatherforecast.domain.usecase.GetWeatherUseCase
 import com.example.weatherforecast.utils.DispatcherProvider
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.async
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine

@@ -15,6 +15,7 @@ import kotlin.math.roundToInt
 
 class ForecastAdapter :
     ListAdapter<ThreeHoursWeatherForecast, ForecastAdapter.ForecastViewHolder>(ForecastDiffCallback()) {
+
     inner class ForecastViewHolder(private val binding: ItemForecastBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(item: ThreeHoursWeatherForecast?) = with(binding) {
