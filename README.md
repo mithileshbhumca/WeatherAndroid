@@ -90,12 +90,13 @@ Unit tests are run on your local machine and are usually located in the `src/tes
    Cancels automatically when Fragment is stopped (prevents memory leaks)
    - Used with(binding) in setupUI():	Reduces repetitive binding. calls
    - Used requireContext() in Toast	More explicit and null-safe
-   - Removed unused variables (e.g., individual view references):Use binding directly for cleaner code
-4. Adapter Optimization:
+   - Removed unused variables (e.g., individual view references):Use binding directly for cleaner code.
+4. Search bar using Flow style for better controlling and debouncing.
+5. Adapter Optimization:
    - CityAdapter Using ListAdapter + DiffUtil
    - old notifyDataSetChanged, new DiffUtil: 
         Redraw only changed items, Smooth animations, Efficient performance with large lists,Cleaner data updates (submitList())
-5. Test cases:
+6. Test cases:
    - For Flow unit test uses - turbine (powered by Square), mockk, kotlinx-coroutines-test
    - For mocking data instead of Mockito uses Mockk for better support in kotlin project,
       Mocking support for final classes and methods and Coroutine support by default
