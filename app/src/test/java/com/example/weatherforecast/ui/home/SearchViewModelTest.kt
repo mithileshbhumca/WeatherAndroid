@@ -1,77 +1,92 @@
 package com.example.weatherforecast.ui.home
 
-import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import androidx.lifecycle.Observer
-import com.example.weatherforecast.domain.repository.UiState
+import app.cash.turbine.test
 import com.example.weatherforecast.data.model.City
+import com.example.weatherforecast.domain.repository.UiState
 import com.example.weatherforecast.domain.usecase.GetCityUseCase
-import com.example.weatherforecast.utils.TestCoroutineRule
+import com.example.weatherforecast.ui.utils.TestDispatcherProvider
+import com.example.weatherforecast.utils.DispatcherProvider
+import io.mockk.MockKAnnotations
+import io.mockk.coEvery
+import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import org.junit.*
-import org.junit.rules.TestRule
-import org.junit.runner.RunWith
-import org.mockito.Mock
-import org.mockito.Mockito
-import org.mockito.junit.MockitoJUnitRunner
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.test.advanceUntilIdle
+import kotlinx.coroutines.test.runTest
+import org.junit.After
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertTrue
+import org.junit.Before
+import org.junit.Test
+import retrofit2.Response
 
 @ExperimentalCoroutinesApi
-@RunWith(MockitoJUnitRunner::class)
 class SearchViewModelTest {
 
-    @get:Rule
-    val testInstantTaskExecutorRule: TestRule = InstantTaskExecutorRule()
-
-    @get:Rule
-    val testCoroutineRule = TestCoroutineRule()
-
-    @Mock
+    @MockK
     private lateinit var getCityUseCase: GetCityUseCase
 
-    @Mock
-    private lateinit var uiStateObserver: Observer<UiState<List<City>>>
     private lateinit var viewModel: SearchViewModel
+    private lateinit var testDispatcherProvider: DispatcherProvider
 
     @Before
     fun setUp() {
-        viewModel = SearchViewModel(getCityUseCase)
+        MockKAnnotations.init(this)
+        testDispatcherProvider = TestDispatcherProvider()
+        viewModel = SearchViewModel(getCityUseCase, testDispatcherProvider)
     }
 
     @Test
-    fun fetchCitySuccess() {
-        testCoroutineRule.runBlockingTest {
-            Mockito.doReturn(emptyList<City>())
-                .`when`(getCityUseCase)
-                .execute("")
+    fun fetchCitySuccess() = runTest {
+        val cities = listOf(City(1, "Paris", null, "FR", null, 2.0, 48.0))
+        val response = Response.success(cities)
 
-            viewModel.getUiState().observeForever(uiStateObserver)
-            viewModel.fetchCity("")
-            Mockito.verify(getCityUseCase).execute("")
-            Mockito.verify(uiStateObserver, Mockito.times(2))
-                .onChanged(UiState.Success(Mockito.any()))
+        coEvery { getCityUseCase.execute("Paris") } returns flowOf(response)
+
+        viewModel.uiState.test {
+            viewModel.fetchCity("Paris")
+            advanceUntilIdle() //Let the coroutine finish everything
+            assertEquals(UiState.Idle, awaitItem())
+            assertEquals(UiState.Success(cities), awaitItem())
+            cancelAndConsumeRemainingEvents() //Cancel Flow collection and clean up
         }
     }
 
     @Test
-    fun fetchCitySuccessError() {
-        testCoroutineRule.runBlockingTest {
-            val errorMessage = "Error Message"
-            Mockito.doThrow(RuntimeException(errorMessage))
-                .`when`(getCityUseCase)
-                .execute("")
+    fun `fetchCity emits Loading and Error on null body`() = runTest {
+        val response = Response.success<List<City>>(null)
 
-            viewModel.getUiState().observeForever(uiStateObserver)
-            viewModel.fetchCity("")
+        coEvery { getCityUseCase.execute("Paris") } returns flowOf(response)
 
-            Mockito.verify(getCityUseCase).execute("")
-            Mockito.verify(uiStateObserver).onChanged(
-                UiState.Error(RuntimeException(errorMessage).toString())
-            )
+        viewModel.uiState.test {
+            viewModel.fetchCity("Paris")
+            advanceUntilIdle()
+
+            assertEquals(UiState.Idle, awaitItem())
+            assertEquals(UiState.Error("No cities found"), awaitItem())
+            cancelAndConsumeRemainingEvents()
         }
     }
+
+    @Test
+    fun `fetchCity emits Loading and Error on exception`() = runTest {
+        coEvery { getCityUseCase.execute("Paris") } returns flow { throw RuntimeException("Server error") }
+
+        viewModel.uiState.test {
+            viewModel.fetchCity("Paris")
+            advanceUntilIdle()
+            assertEquals(UiState.Idle, awaitItem())
+            val error = awaitItem() as UiState.Error
+            assertTrue(error.message.contains("Server error"))
+            cancelAndConsumeRemainingEvents()
+        }
+    }
+
 
     @After
     fun tearDown() {
-        viewModel.getUiState().removeObserver(uiStateObserver)
+        // do something if required
     }
 
 

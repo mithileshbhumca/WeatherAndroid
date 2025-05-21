@@ -92,10 +92,11 @@ dependencies {
     implementation(libs.androidx.navigation.ktx)
     implementation(libs.androidx.navigation.ui.ktx)
     implementation(libs.androidx.navigation.dynamic)
+    //test
     testImplementation(libs.junit)
     testImplementation(libs.mockito.core)
+    testImplementation(libs.mockito.kotlin)
     testImplementation(libs.mockito.inline)
-    testImplementation(libs.coroutines.test)
     testImplementation(libs.core.testing)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -103,6 +104,10 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+    testImplementation(libs.coroutines.test) // Coroutines test
+    testImplementation(libs.turbine)// Turbine for Flow testing
+    testImplementation(libs.mockk)// mockk replacement to mockito in kotlin style mocking
+
 //Hilt
     implementation(libs.hilt.android)
     ksp(libs.dagger.compiler)

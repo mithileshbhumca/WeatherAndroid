@@ -80,7 +80,7 @@ Unit tests are run on your local machine and are usually located in the `src/tes
 
    ![screen2](https://github.com/user-attachments/assets/e10f6143-9d46-4658-9c1b-1c0b6d7f7222)
 
-## Code optimization
+## FLow uses & Code optimization
 
 1. replaces Live data to Flow
 2. Better handling in Jetpack Compose or modern reactive UI layers using Flow
@@ -95,6 +95,12 @@ Unit tests are run on your local machine and are usually located in the `src/tes
    - CityAdapter Using ListAdapter + DiffUtil
    - old notifyDataSetChanged, new DiffUtil: 
         Redraw only changed items, Smooth animations, Efficient performance with large lists,Cleaner data updates (submitList())
+5. Test cases:
+   - For Flow unit test uses - turbine (powered by Square), mockk, kotlinx-coroutines-test
+   - For mocking data instead of Mockito uses Mockk for better support in kotlin project,
+      Mocking support for final classes and methods and Coroutine support by default
+   - In Mockk uses every { ... } returns ... / coEvery { ... } returns ..., but in Mockito uses-doReturn(...).whenever(...) 
+
    
 
 
