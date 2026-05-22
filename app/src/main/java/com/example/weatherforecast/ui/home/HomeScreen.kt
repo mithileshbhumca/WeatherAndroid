@@ -31,6 +31,8 @@ import com.example.weatherforecast.R
 import com.example.weatherforecast.data.model.City
 import com.example.weatherforecast.data.model.Coord
 import com.example.weatherforecast.domain.repository.UiState
+import com.example.weatherforecast.ui.home.component.CityList
+import com.example.weatherforecast.ui.home.component.SearchBarContent
 import com.example.weatherforecast.ui.theme.WeatherForecastTheme
 import kotlinx.coroutines.delay
 
@@ -114,7 +116,7 @@ fun ScreenContent(
                 query = query,
                 expanded = expanded,
                 onQueryChange = {
-                    query= it
+                    query = it
                 },
                 onExpandedChange = {
                     expanded = it
@@ -138,7 +140,7 @@ fun ScreenContent(
 
                     onCityClick(city)
                 }
-             )
+            )
 
             Spacer(
                 modifier = Modifier.height(16.dp)
@@ -149,14 +151,11 @@ fun ScreenContent(
                 is UiState.Loading -> {
 
                     Box(
-
                         modifier = Modifier.fillMaxSize(),
-
                         contentAlignment =
                             Alignment.Center
 
                     ) {
-
                         CircularProgressIndicator()
                     }
                 }
@@ -167,9 +166,7 @@ fun ScreenContent(
 
                         modifier = Modifier.fillMaxSize(),
 
-                        contentAlignment =
-                            Alignment.Center
-
+                        contentAlignment = Alignment.Center
                     ) {
 
                         Text(

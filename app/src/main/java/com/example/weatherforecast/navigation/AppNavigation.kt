@@ -9,7 +9,6 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.weatherforecast.ui.details.WeatherDetailRoute
 import com.example.weatherforecast.ui.home.HomeRoute
-import com.example.weatherforecast.ui.home.HomeScreen
 
 @OptIn(ExperimentalSharedTransitionApi::class)
 @Composable
