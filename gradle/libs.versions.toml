@@ -19,13 +19,15 @@ glide = "4.15.1"
 mockito = "5.12.0"
 mockito-kotlin = "5.4.0"
 mockito-inline = "5.2.0"
-coroutines-test = "1.7.3"
+coroutines = "1.7.3"
 core-testing = "2.2.0"
 jacoco = "0.8.8"
 nav-version = "2.9.0"
+navigationCompose = "2.9.7"
 material = "1.12.0"
 activity = "1.10.1"
 hilt-version = "2.51.1"
+hiltNavigationCompose = "1.2.0"
 kotlin-ksp = "2.0.21-1.0.27"
 compose-plugin = "1.8.0"
 turbine = "0.11.0"
@@ -56,6 +58,8 @@ androidx-cardview = { group = "androidx.cardview", name = "cardview", version.re
 androidx-navigation-ktx = { group = "androidx.navigation", name = "navigation-fragment-ktx", version.ref = "nav-version" }
 androidx-navigation-ui-ktx = { group = "androidx.navigation", name = "navigation-ui-ktx", version.ref = "nav-version" }
 androidx-navigation-dynamic = { group = "androidx.navigation", name = "navigation-dynamic-features-fragment", version.ref = "nav-version" }
+androidx-navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "navigationCompose" }
+androidx-hilt-navigation-compose = { group = "androidx.hilt", name = "hilt-navigation-compose", version.ref = "hiltNavigationCompose" }
 
 
 glide = { group = "com.github.bumptech.glide", name = "glide", version.ref = "glide" }
@@ -63,7 +67,9 @@ glide-compiler = { group = "com.github.bumptech.glide", name = "compiler", versi
 mockito-core = { group = "org.mockito", name = "mockito-core", version.ref = "mockito" }
 mockito-inline = { group = "org.mockito", name = "mockito-inline", version.ref = "mockito-inline" }
 mockito-kotlin = { group = "org.mockito.kotlin", name = "mockito-kotlin", version.ref = "mockito-kotlin" }
-coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "coroutines-test" }
+coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "coroutines" }
+kotlinx-coroutines-core = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "coroutines" }
+kotlinx-coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "coroutines" }
 core-testing = { group = "androidx.arch.core", name = "core-testing", version.ref = "core-testing" }
 org-jacoco-agent = { group = "org.jacoco", name = "org.jacoco.agent", version.ref = "jacoco" }
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }

@@ -56,3 +56,4 @@ fun WeatherForecastTheme(
         content = content
     )
 }
+
