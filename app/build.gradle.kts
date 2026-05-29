@@ -92,6 +92,12 @@ dependencies {
     implementation(libs.androidx.navigation.ktx)
     implementation(libs.androidx.navigation.ui.ktx)
     implementation(libs.androidx.navigation.dynamic)
+    //compose navigation
+    implementation(libs.androidx.navigation.compose)
+    implementation(libs.androidx.hilt.navigation.compose)
+    implementation(
+        "io.coil-kt:coil-compose:2.7.0"
+    )
     //test
     testImplementation(libs.junit)
     testImplementation(libs.mockito.core)

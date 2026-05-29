@@ -10,6 +10,7 @@ import com.example.weatherforecast.utils.DispatcherProvider
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.onStart
@@ -22,7 +23,7 @@ class SearchViewModel @Inject constructor(
     private val dispatcherProvider: DispatcherProvider
 ) : ViewModel() {
     private val _uiState = MutableStateFlow<UiState<List<City>>>(UiState.Idle)
-    val uiState: StateFlow<UiState<List<City>>> = _uiState
+    val uiState: StateFlow<UiState<List<City>>> = _uiState.asStateFlow()
 
     fun fetchCity(cityName: String) {
         viewModelScope.launch(dispatcherProvider.main) {
@@ -31,7 +32,7 @@ class SearchViewModel @Inject constructor(
                     .flowOn(dispatcherProvider.io)
                     .onStart { _uiState.value = UiState.Loading } // Cleaner loading emission
                     .catch { e ->
-                        _uiState.value = UiState.Error(e.toString())
+                        _uiState.value = UiState.Error(e.toString()?:"Unknown Error")
                     }
                     .collect { response ->
                         if (response.isSuccessful && response.body() != null) {

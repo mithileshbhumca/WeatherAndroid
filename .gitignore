@@ -7,9 +7,41 @@
 /.idea/workspace.xml
 /.idea/navEditor.xml
 /.idea/assetWizardSettings.xml
-.DS_Store
+/.idea/modules/
+/.idea/deploymentTargetDropDown.xml
+/.idea/deviceManager.xml
+/.idea/markdown.xml
 /build
-/captures
 .externalNativeBuild
 .cxx
+
+# Android Studio / IntelliJ IDEA
+.idea/
+
+# Gradle
+.gradle/
+build/
+
+# Local configuration file (sdk path, etc)
 local.properties
+
+# Log Files
+*.log
+
+# Android Studio Captures
+/captures
+
+# Built variants
+*.apk
+*.aar
+*.ap_
+*.aab
+
+# Generated files
+bin/
+gen/
+out/
+
+# Others
+.DS_Store
+Thumbs.db

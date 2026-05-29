@@ -26,6 +26,15 @@ Weather App is a simple Android application that allows users to get current wea
 - **Architecture: MVVM (Model-View-ViewModel)**:
 This project follows the **MVVM** (Model-View-ViewModel) architecture pattern to separate concerns and create a scalable and maintainable application structure. Below is an overview of the architecture and how it’s applied in this project.
 
+MainActivity
+↓
+NavHost
+↓
+HomeRoute()
+↓
+HomeScreen()
+↓
+SearchViewModel
 ## Used Open Source Library
 - **Retrofit**: For Networking work
 - **Glide**: To load cloud images.
