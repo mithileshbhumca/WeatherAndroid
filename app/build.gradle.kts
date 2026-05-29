@@ -6,6 +6,7 @@ plugins {
     alias(libs.plugins.jetbrains.kotlin.ksp)
     alias(libs.plugins.jetbrainsCompose)
     alias(libs.plugins.compose.compiler)
+    jacoco
 }
 
 android {
@@ -35,6 +36,10 @@ android {
                 "proguard-rules.pro"
             )
             buildConfigField("boolean", "ENABLE_HTTP_LOGS", "true")
+        }
+        debug {
+            enableUnitTestCoverage = true
+            enableAndroidTestCoverage = true
         }
     }
     compileOptions {
