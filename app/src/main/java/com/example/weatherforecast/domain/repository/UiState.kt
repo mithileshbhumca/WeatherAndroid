@@ -1,4 +1,4 @@
-package com.example.weatherforecast.data.repository
+package com.example.weatherforecast.domain.repository
 
 sealed interface UiState<out T> {
 
@@ -8,4 +8,5 @@ sealed interface UiState<out T> {
 
     object Loading : UiState<Nothing>
 
+    object Idle : UiState<Nothing>
 }

@@ -1,19 +1,19 @@
 package com.example.weatherforecast.data.network.interceptor
 
-import android.content.Context
-import com.example.weatherforecast.R
 import com.example.weatherforecast.data.network.NoConnectivityException
-import com.example.weatherforecast.utils.NetworkUtils
+import com.example.weatherforecast.data.network.InternetMonitor
 import okhttp3.CacheControl
 import okhttp3.Interceptor
 import okhttp3.Response
+import javax.inject.Inject
 
-class NetworkConnectionInterceptor(private val context: Context) : Interceptor {
-
+class NetworkConnectionInterceptor @Inject constructor(
+    private val internetMonitor: InternetMonitor,
+) : Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
         var request = chain.request()
 
-        if (!NetworkUtils.isNetworkAvailable(context)) {
+        if (!internetMonitor.isNetworkAvailable()) {
             // If network is not available, proceed with cache control
             // Force cache usage in case of no network
             request = request.newBuilder()
@@ -25,7 +25,7 @@ class NetworkConnectionInterceptor(private val context: Context) : Interceptor {
                 return cachedResponse
             } else {
                 // No cache available, throw an exception
-                throw NoConnectivityException(context.getString(R.string.no_internet_connection_no_cache))
+                throw NoConnectivityException("No network available and no cache data found.")
             }
         }
 

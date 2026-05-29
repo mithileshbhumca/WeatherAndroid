@@ -1,16 +1,22 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
+    alias(libs.plugins.navigation.safeargs)
+    alias(libs.plugins.hilt.android)
+    alias(libs.plugins.jetbrains.kotlin.ksp)
+    alias(libs.plugins.jetbrainsCompose)
+    alias(libs.plugins.compose.compiler)
+    jacoco
 }
 
 android {
     namespace = "com.example.weatherforecast"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.example.weatherforecast"
         minSdk = 24
-        targetSdk = 34
+        targetSdk = 35
         versionCode = 1
         versionName = "1.0"
 
@@ -29,26 +35,26 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
-            buildConfigField ("boolean", "ENABLE_HTTP_LOGS", "true")
+            buildConfigField("boolean", "ENABLE_HTTP_LOGS", "true")
+        }
+        debug {
+            enableUnitTestCoverage = true
+            enableAndroidTestCoverage = true
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = "17"
     }
+
     buildFeatures {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.1"
-    }
-    packaging {
-        resources {
-            excludes += "/META-INF/{AL2.0,LGPL2.1}"
-        }
+        kotlinCompilerExtensionVersion = "1.5.15"
     }
     buildFeatures {
         buildConfig = true
@@ -56,7 +62,14 @@ android {
     buildFeatures {
         viewBinding = true
     }
-
+//    packaging {
+//        jniLibs {
+//            pickFirsts.add("META-INF/*")
+//        }
+//        resources {
+//            pickFirsts.add("META-INF/*")
+//        }
+//    }
 }
 
 dependencies {
@@ -75,14 +88,20 @@ dependencies {
     implementation(libs.logging.interceptor)
     implementation(libs.androidx.cardview)
     implementation(libs.glide)
+    implementation(libs.material)
+    implementation(libs.androidx.activity)
     annotationProcessor(libs.glide.compiler)
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.recyclerview)
     implementation(libs.androidx.constraintlayout)
+    implementation(libs.androidx.navigation.ktx)
+    implementation(libs.androidx.navigation.ui.ktx)
+    implementation(libs.androidx.navigation.dynamic)
+    //test
     testImplementation(libs.junit)
     testImplementation(libs.mockito.core)
+    testImplementation(libs.mockito.kotlin)
     testImplementation(libs.mockito.inline)
-    testImplementation(libs.coroutines.test)
     testImplementation(libs.core.testing)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -90,5 +109,13 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+    testImplementation(libs.coroutines.test) // Coroutines test
+    testImplementation(libs.turbine)// Turbine for Flow testing
+    testImplementation(libs.mockk)// mockk replacement to mockito in kotlin style mocking
+
+//Hilt
+    implementation(libs.hilt.android)
+    ksp(libs.dagger.compiler)
+    ksp(libs.hilt.compiler)
 
 }

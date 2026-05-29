@@ -1,87 +1,112 @@
 package com.example.weatherforecast.ui.details
 
-import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import androidx.lifecycle.Observer
-import com.example.weatherforecast.data.network.ApiHelper
-import com.example.weatherforecast.data.repository.UiState
+import app.cash.turbine.test
 import com.example.weatherforecast.data.model.CurrentWeather
 import com.example.weatherforecast.data.model.WeatherDetailData
 import com.example.weatherforecast.data.model.WeatherForecast
-import com.example.weatherforecast.utils.TestCoroutineRule
+import com.example.weatherforecast.domain.repository.UiState
+import com.example.weatherforecast.domain.usecase.GetForecastUseCase
+import com.example.weatherforecast.domain.usecase.GetWeatherUseCase
+import com.example.weatherforecast.ui.utils.TestDispatcherProvider
+import com.example.weatherforecast.utils.DispatcherProvider
+import io.mockk.MockKAnnotations
+import io.mockk.coEvery
+import io.mockk.every
+import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import org.junit.*
-import org.junit.rules.TestRule
-import org.junit.runner.RunWith
-import org.mockito.Mock
-import org.mockito.Mockito
-import org.mockito.junit.MockitoJUnitRunner
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.test.advanceUntilIdle
+import kotlinx.coroutines.test.runTest
+import okhttp3.ResponseBody.Companion.toResponseBody
+import org.junit.After
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertTrue
+import org.junit.Before
+import org.junit.Test
+import retrofit2.Response
 
 @ExperimentalCoroutinesApi
-@RunWith(MockitoJUnitRunner::class)
 class WeatherDetailViewModelTest {
 
-    @get:Rule
-    val testInstantTaskExecutorRule: TestRule = InstantTaskExecutorRule()
+    @MockK
+    private lateinit var weatherUseCase: GetWeatherUseCase
 
-    @get:Rule
-    val testCoroutineRule = TestCoroutineRule()
+    @MockK
+    private lateinit var forecastUseCase: GetForecastUseCase
 
-    @Mock
-    private lateinit var apiHelper: ApiHelper
+    private lateinit var testDispatcherProvider: DispatcherProvider
 
-    @Mock
-    private lateinit var uiStateObserver: Observer<UiState<WeatherDetailData>>
     private lateinit var viewModel: WeatherDetailViewModel
+    private val lat = 2.0
+    private val log = 48.0
 
     @Before
     fun setUp() {
-        viewModel = WeatherDetailViewModel(apiHelper)
+        MockKAnnotations.init(this)
+        testDispatcherProvider = TestDispatcherProvider()
+        viewModel = WeatherDetailViewModel(weatherUseCase, forecastUseCase, testDispatcherProvider)
     }
 
     @Test
-    fun fetchDetails_shouldReturnSuccess() {
+    fun givenServerResponse200_whenFetch_shouldReturnSuccess() = runTest {
+
         val mockCurrentWeather = CurrentWeather(name = "CityName", main = null, weather = null)
         val mockWeatherForecast = WeatherForecast(list = emptyList())
+        val weatherDetailData = WeatherDetailData(mockCurrentWeather, mockWeatherForecast)
 
-        testCoroutineRule.runBlockingTest {
-            Mockito.doReturn(mockCurrentWeather)
-                .`when`(apiHelper)
-                .getCurrentWeather(0.0, 0.0)
+        val resCurrentWeather = Response.success(mockCurrentWeather)
+        val resWeatherForecast = Response.success(mockWeatherForecast)
 
-            Mockito.doReturn(mockWeatherForecast)
-                .`when`(apiHelper)
-                .getWeatherForecast(0.0, 0.0)
+        coEvery { weatherUseCase.execute(lat, log) } returns flowOf(resCurrentWeather)
+        coEvery { forecastUseCase.execute(lat, log) } returns flowOf(resWeatherForecast)
+        viewModel.uiState.test {
+            viewModel.fetchDetails(lat, log)
+            advanceUntilIdle()
+            assertEquals(UiState.Loading, awaitItem())
+            assertEquals(UiState.Success(weatherDetailData), awaitItem())
+            cancelAndIgnoreRemainingEvents()
+        }
+    }
 
-            viewModel.getUiState().observeForever(uiStateObserver)
-            viewModel.fetchDetails(0.0, 0.0, "")
-            Mockito.verify(apiHelper).getCurrentWeather(0.0,0.0)
-             Mockito.verify(apiHelper).getWeatherForecast(0.0, 0.0)
 
-            Mockito.verify(uiStateObserver, Mockito.times(2))
-                .onChanged(UiState.Success(Mockito.any()))
+    @Test
+    fun `fetchDetails emits Error when one API response fails`() = runTest {
+
+        val mockCurrentWeather = CurrentWeather(name = "CityName", main = null, weather = null)
+        val resCurrentWeather = Response.success(mockCurrentWeather)
+
+        coEvery { weatherUseCase.execute(lat, log) } returns flowOf(resCurrentWeather)
+        every { forecastUseCase.execute(lat, log) } returns flow {
+            emit(Response.error(404, "Not found".toResponseBody()))
+        }
+        viewModel.uiState.test {
+            viewModel.fetchDetails(lat, log)
+            assertEquals(UiState.Loading, awaitItem())
+            assertTrue(awaitItem() is UiState.Error)
+            cancelAndIgnoreRemainingEvents()
         }
     }
 
     @Test
-    fun fetchDetails_SuccessError() {
-        testCoroutineRule.runBlockingTest {
-            val errorMessage = "Error Message"
+    fun `fetchDetails emits Error when exception occurs`() = runTest {
+        val mockWeatherForecast = WeatherForecast(list = emptyList())
+        val resWeatherForecast = Response.success(mockWeatherForecast)
 
-            Mockito.doThrow(RuntimeException(errorMessage))
-                .`when`(apiHelper)
-                .getCurrentWeather(0.0, 0.0)
-
-            viewModel.getUiState().observeForever(uiStateObserver)
-            viewModel.fetchDetails(0.0, 0.0, "")
-
-            Mockito.verify(uiStateObserver).onChanged(
-                UiState.Error(RuntimeException(errorMessage).toString())
-            )
+        coEvery { weatherUseCase.execute(lat, log) } returns flow {
+            throw RuntimeException("Something went wrong")
+        }
+        coEvery { forecastUseCase.execute(lat, log) } returns flowOf(resWeatherForecast)
+        viewModel.uiState.test {
+            viewModel.fetchDetails(lat, log)
+            assertEquals(UiState.Loading, awaitItem())
+            assertTrue(awaitItem() is UiState.Error)
+            cancelAndIgnoreRemainingEvents()
         }
     }
 
     @After
     fun tearDown() {
-        viewModel.getUiState().removeObserver(uiStateObserver)
+        //do something if required
     }
 }

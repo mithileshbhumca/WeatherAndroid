@@ -7,7 +7,7 @@ import java.io.IOException
 class RetryInterceptor(private val maxRetryAttempts: Int) : Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
         var attempt = 0
-        var response: Response? = null
+        var response: Response?
         var exception: IOException? = null
 
         while (attempt < maxRetryAttempts) {
@@ -16,6 +16,9 @@ class RetryInterceptor(private val maxRetryAttempts: Int) : Interceptor {
                 // If the request is successful, return the response
                 if (response.isSuccessful) {
                     return response
+                } else {
+                    // Close the previous response before retrying to avoid memory leaks
+                    response.close()
                 }
             } catch (e: IOException) {
                 exception = e

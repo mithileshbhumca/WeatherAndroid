@@ -1,60 +1,62 @@
 package com.example.weatherforecast.ui.details
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.weatherforecast.data.network.ApiHelper
-import com.example.weatherforecast.data.repository.UiState
 import com.example.weatherforecast.data.model.WeatherDetailData
 import com.example.weatherforecast.data.network.NoConnectivityException
-import kotlinx.coroutines.async
-import kotlinx.coroutines.coroutineScope
+import com.example.weatherforecast.domain.repository.UiState
+import com.example.weatherforecast.domain.usecase.GetForecastUseCase
+import com.example.weatherforecast.domain.usecase.GetWeatherUseCase
+import com.example.weatherforecast.utils.DispatcherProvider
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class WeatherDetailViewModel(
-    private val apiHelper: ApiHelper
+@HiltViewModel
+class WeatherDetailViewModel @Inject constructor(
+    private val mGetWeatherUseCase: GetWeatherUseCase,
+    private val mGetForecastUseCase: GetForecastUseCase,
+    private val dispatcherProvider: DispatcherProvider
 ) : ViewModel() {
-    private val uiState = MutableLiveData<UiState<WeatherDetailData>>()
+    private val _uiState = MutableStateFlow<UiState<WeatherDetailData>>(UiState.Loading)
+    val uiState: StateFlow<UiState<WeatherDetailData>> = _uiState
 
-    fun fetchDetails(lat: Double, lon: Double, city: String?) {
-        viewModelScope.launch {
-            uiState.postValue(UiState.Loading)
+    fun fetchDetails(lat: Double, lon: Double) {
+        viewModelScope.launch(dispatcherProvider.main) {
+            _uiState.value = UiState.Loading
 
             try {
-                coroutineScope {
+                combine(
+                    mGetWeatherUseCase.execute(lat, lon),
+                    mGetForecastUseCase.execute(lat, lon)
 
-                    val currentWeatherResponse = async { apiHelper.getCurrentWeather(lat, lon) }
-
-                    val forecastResponse =
-                        async { apiHelper.getWeatherForecast(lat, lon) }
-
-                    val getCurrentWeather = currentWeatherResponse.await()
-
-                    val getWeatherForecast = forecastResponse.await()
-
-                    if (getCurrentWeather.isSuccessful && getCurrentWeather.body() != null && getWeatherForecast.isSuccessful && getWeatherForecast.body() != null) {
-                        val weatherDetailData =
-                            WeatherDetailData(
-                                getCurrentWeather.body()!!,
-                                getWeatherForecast.body()!!
-                            )
-                        uiState.postValue(UiState.Success(weatherDetailData))
-
-                    } else {
-                        uiState.postValue(UiState.Error("Error fetching weather data"))
-                    }
+                ) { currentWeatherResponse, forecastResponse ->
+                    Pair(currentWeatherResponse, forecastResponse)
                 }
+                    .flowOn(dispatcherProvider.io)
+                    .collect { (currentWeatherResponse, forecastResponse) ->
+                        if (currentWeatherResponse.isSuccessful && currentWeatherResponse.body() != null && forecastResponse.isSuccessful && forecastResponse.body() != null) {
+                            val weatherDetailData =
+                                WeatherDetailData(
+                                    currentWeatherResponse.body()!!,
+                                    forecastResponse.body()!!
+                                )
+                            _uiState.value = UiState.Success(weatherDetailData)
+
+                        } else {
+                            _uiState.value = UiState.Error("Error fetching weather data")
+                        }
+                    }
+
             } catch (e: NoConnectivityException) {
-                uiState.postValue(UiState.Error(e.message.toString()))
+                _uiState.value = UiState.Error(e.message.toString())
             } catch (e: Exception) {
-                uiState.postValue(UiState.Error(e.toString()))
+                _uiState.value = UiState.Error(e.toString())
             }
         }
     }
-
-    fun getUiState(): LiveData<UiState<WeatherDetailData>> {
-        return uiState
-    }
-
 }

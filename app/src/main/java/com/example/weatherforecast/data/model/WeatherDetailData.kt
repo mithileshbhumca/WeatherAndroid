@@ -1,6 +1,6 @@
 package com.example.weatherforecast.data.model
 
-class WeatherDetailData(
+data class WeatherDetailData(
     val currentWeather: CurrentWeather,
     val weatherForecast: WeatherForecast,
 )

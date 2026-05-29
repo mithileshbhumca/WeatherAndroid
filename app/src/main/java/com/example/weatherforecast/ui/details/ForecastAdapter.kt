@@ -1,54 +1,65 @@
 package com.example.weatherforecast.ui.details
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.weatherforecast.R
 import com.example.weatherforecast.data.model.ThreeHoursWeatherForecast
+import com.example.weatherforecast.databinding.ItemForecastBinding
 import com.example.weatherforecast.utils.Constants
 import com.example.weatherforecast.utils.FormattingUtil
-import java.text.SimpleDateFormat
-import java.util.Locale
+import kotlin.math.roundToInt
 
-class ForecastAdapter(private val forecastList: List<ThreeHoursWeatherForecast>?) :
-    RecyclerView.Adapter<ForecastAdapter.ForecastViewHolder>() {
+class ForecastAdapter :
+    ListAdapter<ThreeHoursWeatherForecast, ForecastAdapter.ForecastViewHolder>(ForecastDiffCallback()) {
+
+    inner class ForecastViewHolder(private val binding: ItemForecastBinding) :
+        RecyclerView.ViewHolder(binding.root) {
+        fun bind(item: ThreeHoursWeatherForecast?) = with(binding) {
+            dateText.text = FormattingUtil.getDateFormatEEE(item?.dt)
+            maxTemp.text = itemView.context.getString(
+                R.string.max_c, item?.main?.tempMax?.roundToInt()
+            )
+            minTemp.text = itemView.context.getString(
+                R.string.min_c, item?.main?.tempMin?.roundToInt()
+            )
+            val icon = item?.weather?.firstOrNull()?.icon.orEmpty()
+            val iconUrl = "${Constants.ICON_URL}$icon.png"
+
+            Glide.with(itemView.context)
+                .load(iconUrl)
+                .into(weatherIcon)
+        }
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ForecastViewHolder {
-
-        val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.item_forecast, parent, false)
-        return ForecastViewHolder(view)
+        val binding = ItemForecastBinding.inflate(
+            LayoutInflater.from(parent.context), parent, false
+        )
+        return ForecastViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: ForecastViewHolder, position: Int) {
-        val item = forecastList?.get(position)
-
-        holder.dateText.text = FormattingUtil.getDateFormatEEE(item?.dt)
-        holder.maxTempTextView.text = "Max: ${item?.main?.tempMax}°C"
-        holder.minTempTextView.text = "Min: ${item?.main?.tempMin}°C"
-
-        val iconUrl = "${Constants.ICON_URL}${item?.weather!![0].icon}.png"
-
-        Glide.with(holder.itemView.context)
-            .load(iconUrl)
-            .into(holder.weatherIcon)
-
+        holder.bind(getItem(position))
     }
 
-    override fun getItemCount(): Int {
-        return forecastList?.size ?: 0
-    }
+    class ForecastDiffCallback : DiffUtil.ItemCallback<ThreeHoursWeatherForecast>() {
+        override fun areItemsTheSame(
+            oldItem: ThreeHoursWeatherForecast,
+            newItem: ThreeHoursWeatherForecast
+        ): Boolean {
+            return oldItem.dt == newItem.dt
+        }
 
-    class ForecastViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val dateText: TextView = itemView.findViewById(R.id.dateText)
-        val maxTempTextView: TextView = itemView.findViewById(R.id.max_temp)
-        val minTempTextView: TextView = itemView.findViewById(R.id.min_temp)
-        val weatherIcon: ImageView = itemView.findViewById(R.id.weather_icon)
+        override fun areContentsTheSame(
+            oldItem: ThreeHoursWeatherForecast,
+            newItem: ThreeHoursWeatherForecast
+        ): Boolean {
+            return oldItem == newItem
+        }
     }
-
 
 }
