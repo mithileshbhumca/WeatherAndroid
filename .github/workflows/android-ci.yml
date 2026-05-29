@@ -42,7 +42,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: unit_html_report
-          path: app/build/reports/test/testDebugUnittest/
+          path: app/build/reports/tests/testDebugUnittest/
 
 
 
