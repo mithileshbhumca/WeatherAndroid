@@ -30,6 +30,7 @@ kotlin-ksp = "2.0.21-1.0.27"
 compose-plugin = "1.8.0"
 turbine = "0.11.0"
 mockk="1.14.2"
+sonar="7.3.0.8198"
 [libraries]
 retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
 retrofit-converter-gson = { group = "com.squareup.retrofit2", name = "converter-gson", version.ref = "retrofit" }
@@ -88,3 +89,4 @@ jetbrains-kotlin-ksp = { id = "com.google.devtools.ksp", version.ref = "kotlin-k
 jetbrainsCompose = { id = "org.jetbrains.compose", version.ref = "compose-plugin" }
 kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+sonarqube = { id = "org.sonarqube", version.ref = "sonar" }

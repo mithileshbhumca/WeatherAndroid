@@ -6,7 +6,8 @@ plugins {
     alias(libs.plugins.jetbrains.kotlin.ksp)
     alias(libs.plugins.jetbrainsCompose)
     alias(libs.plugins.compose.compiler)
-    jacoco
+   // jacoco
+    alias(libs.plugins.sonarqube)
 }
 
 android {
@@ -52,14 +53,7 @@ android {
 
     buildFeatures {
         compose = true
-    }
-    composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.15"
-    }
-    buildFeatures {
         buildConfig = true
-    }
-    buildFeatures {
         viewBinding = true
     }
 //    packaging {
