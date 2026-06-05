@@ -41,8 +41,11 @@ fun AppNavigation(modifier: Modifier= Modifier){
                     ?.toDoubleOrNull()
                     ?:0.0
                 WeatherDetailRoute(
-                    lat=lat,
-                    lon=lon
+                    lat = lat,
+                    lon = lon,
+                    onBackClick = {
+                        navController.popBackStack()
+                    }
                 )
 
 

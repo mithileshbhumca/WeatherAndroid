@@ -3,6 +3,7 @@ package com.example.weatherforecast.ui.details
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -11,8 +12,6 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -24,6 +23,7 @@ import com.example.weatherforecast.data.model.CurrentWeather
 import com.example.weatherforecast.data.model.WeatherDetailData
 import com.example.weatherforecast.data.model.WeatherForecast
 import com.example.weatherforecast.domain.repository.UiState
+import com.example.weatherforecast.ui.component.WeatherTopAppBar
 import com.example.weatherforecast.ui.details.component.CityForecastCard
 import com.example.weatherforecast.ui.details.component.CurrentWeatherCard
 
@@ -31,22 +31,17 @@ import com.example.weatherforecast.ui.details.component.CurrentWeatherCard
 @Composable
 fun WeatherDetailScreen(
     uiState: UiState<WeatherDetailData>,
+    onBackClick: () -> Unit = {},
     modifier: Modifier = Modifier
 
 ) {
     Scaffold(
         modifier = modifier.fillMaxSize(),
         topBar = {
-            TopAppBar(
-                title = {
-                    Text("Weather Details")
-                },
-                colors =
-                    TopAppBarDefaults.topAppBarColors(
-                        containerColor = MaterialTheme.colorScheme.primary,
-                        titleContentColor = MaterialTheme.colorScheme.onSecondary
-                    )
-
+            WeatherTopAppBar(
+                title = "Weather Details",
+                canNavigateBack = true,
+                navigateUp = onBackClick
             )
         }
     ) { innerPadding ->
@@ -82,7 +77,8 @@ fun WeatherDetailScreen(
             is UiState.Success -> {
                 DetailScreen(
                     weatherDetailData = uiState.data,
-                    modifier = Modifier.padding(innerPadding)
+                    modifier = Modifier.fillMaxSize(),
+                    contentPadding = innerPadding
                 )
 
             }
@@ -98,14 +94,14 @@ fun WeatherDetailScreen(
 @Composable
 fun DetailScreen(
     weatherDetailData: WeatherDetailData,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    contentPadding: PaddingValues = PaddingValues(0.dp)
 ) {
     val currentWeather = weatherDetailData.currentWeather
     val cityForeCast = weatherDetailData.weatherForecast
 
     LazyColumn(
         modifier = modifier
-            .fillMaxSize()
             .background(
                 Brush.verticalGradient(
                     colors = listOf(
@@ -114,6 +110,7 @@ fun DetailScreen(
                     )
                 )
             ),
+        contentPadding = contentPadding,
         verticalArrangement = Arrangement.spacedBy(16.dp)
     )
     {

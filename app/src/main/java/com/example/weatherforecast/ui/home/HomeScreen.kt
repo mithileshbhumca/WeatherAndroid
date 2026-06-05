@@ -2,6 +2,7 @@ package com.example.weatherforecast.ui.home
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
@@ -11,8 +12,6 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -31,6 +30,7 @@ import com.example.weatherforecast.R
 import com.example.weatherforecast.data.model.City
 import com.example.weatherforecast.data.model.Coord
 import com.example.weatherforecast.domain.repository.UiState
+import com.example.weatherforecast.ui.component.WeatherTopAppBar
 import com.example.weatherforecast.ui.home.component.CityList
 import com.example.weatherforecast.ui.home.component.SearchBarContent
 import com.example.weatherforecast.ui.theme.WeatherForecastTheme
@@ -75,26 +75,14 @@ fun ScreenContent(
     }
     Scaffold(
         modifier = modifier.fillMaxSize(),
-
         topBar = {
-            TopAppBar(
-                title = {
-                    Text("Weather location")
-                },
-                colors =
-                    TopAppBarDefaults.topAppBarColors(
-                        containerColor =
-                            MaterialTheme.colorScheme.primary,
-                        titleContentColor = MaterialTheme.colorScheme.onSecondary
-                    )
-
-            )
+            WeatherTopAppBar(title = "Weather location")
         }
     ){ innerPadding ->
         Column(
             modifier = Modifier
                 .padding(
-                    innerPadding
+                    top = innerPadding.calculateTopPadding()
                 )
                 .fillMaxSize()
                 .padding(horizontal = 16.dp)
@@ -123,8 +111,7 @@ fun ScreenContent(
                 },
                 searchResults = when (uiState) {
 
-                    is UiState.Success ->
-                        uiState.data
+                    is UiState.Success -> uiState.data
 
                     else -> emptyList()
                 },
@@ -187,7 +174,10 @@ fun ScreenContent(
 
                         cities = uiState.data,
 
-                        onCityClick = onCityClick
+                        onCityClick = onCityClick,
+                        contentPadding = PaddingValues(
+                            bottom = innerPadding.calculateBottomPadding()
+                        )
                     )
                 }
 
@@ -207,7 +197,6 @@ fun ScreenContent(
 fun WeatherScreenGeneratingPreview() {
     WeatherForecastTheme() {
         ScreenContent(
-
             uiState = UiState.Success(
 
                 listOf(
@@ -218,6 +207,42 @@ fun WeatherScreenGeneratingPreview() {
                         lat = 28.57,
                         lon = 77.32,
                         coord= Coord(8.57, 77.32,)
+                    ),
+                    City(
+                        name = "Delhi",
+                        state = "Delhi",
+                        country = "India",
+                        lat = 28.61,
+                        lon = 77.20,
+                        coord= Coord(28.61, 77.20,)
+
+                    ),
+                    City(
+                        name = "Delhi",
+                        state = "Delhi",
+                        country = "India",
+                        lat = 28.61,
+                        lon = 77.20,
+                        coord= Coord(28.61, 77.20,)
+
+                    ),
+                    City(
+                        name = "Delhi",
+                        state = "Delhi",
+                        country = "India",
+                        lat = 28.61,
+                        lon = 77.20,
+                        coord= Coord(28.61, 77.20,)
+
+                    ),
+                    City(
+                        name = "Delhi",
+                        state = "Delhi",
+                        country = "India",
+                        lat = 28.61,
+                        lon = 77.20,
+                        coord= Coord(28.61, 77.20,)
+
                     ),
                     City(
                         name = "Delhi",

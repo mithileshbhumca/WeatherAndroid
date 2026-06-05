@@ -8,24 +8,20 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 
 @Composable
 fun WeatherDetailRoute(
-
     lat: Double,
-
     lon: Double,
-
+    onBackClick: () -> Unit = {},
     viewModel: WeatherDetailViewModel = hiltViewModel()
-
 ) {
-
     val uiState by viewModel.uiState
         .collectAsStateWithLifecycle()
 
     LaunchedEffect(Unit) {
-
         viewModel.fetchDetails(lat, lon)
     }
 
     WeatherDetailScreen(
-        uiState = uiState
+        uiState = uiState,
+        onBackClick = onBackClick
     )
 }
