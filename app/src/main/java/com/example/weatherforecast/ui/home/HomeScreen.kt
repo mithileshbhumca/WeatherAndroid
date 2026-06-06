@@ -7,8 +7,12 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ExitToApp
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -29,7 +33,7 @@ import androidx.compose.ui.unit.sp
 import com.example.weatherforecast.R
 import com.example.weatherforecast.data.model.City
 import com.example.weatherforecast.data.model.Coord
-import com.example.weatherforecast.domain.repository.UiState
+import com.example.weatherforecast.domain.UiState
 import com.example.weatherforecast.ui.component.WeatherTopAppBar
 import com.example.weatherforecast.ui.home.component.CityList
 import com.example.weatherforecast.ui.home.component.SearchBarContent
@@ -40,14 +44,12 @@ import kotlinx.coroutines.delay
 @Composable
 fun HomeScreen(
     uiState: UiState<List<City>>,
-
     onSearch: (String) -> Unit,
-
     onCityClick: (City) -> Unit,
-
+    onLogout: () -> Unit = {},
     modifier: Modifier = Modifier
 ){
-    ScreenContent(uiState,onSearch,onCityClick,modifier)
+    ScreenContent(uiState,onSearch,onCityClick,onLogout,modifier)
 }
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -55,8 +57,8 @@ fun ScreenContent(
     uiState: UiState<List<City>>,
     onSearch: (String) -> Unit,
     onCityClick: (City) -> Unit,
+    onLogout: () -> Unit = {},
     modifier: Modifier = Modifier
-
 ){
     var query by rememberSaveable {
         mutableStateOf("")
@@ -76,7 +78,18 @@ fun ScreenContent(
     Scaffold(
         modifier = modifier.fillMaxSize(),
         topBar = {
-            WeatherTopAppBar(title = "Weather location")
+            WeatherTopAppBar(
+                title = "Weather location",
+                actions = {
+                    IconButton(onClick = onLogout) {
+                        Icon(
+                            imageVector = Icons.AutoMirrored.Filled.ExitToApp,
+                            contentDescription = "Logout",
+                            tint = MaterialTheme.colorScheme.onPrimary
+                        )
+                    }
+                }
+            )
         }
     ){ innerPadding ->
         Column(
@@ -171,9 +184,7 @@ fun ScreenContent(
                 is UiState.Success -> {
 
                     CityList(
-
                         cities = uiState.data,
-
                         onCityClick = onCityClick,
                         contentPadding = PaddingValues(
                             bottom = innerPadding.calculateBottomPadding()

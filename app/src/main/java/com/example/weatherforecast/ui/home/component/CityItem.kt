@@ -20,23 +20,17 @@ this replace CityAdapter ViewHolder
 */
 @Composable
 fun CityItem(
-
     city: City,
-
     onClick: () -> Unit,
-
     modifier: Modifier = Modifier
-
 ) {
 
     Card(
-
         modifier = modifier
             .fillMaxWidth()
             .clickable {
                 onClick()
             }
-
     ) {
 
         Column(

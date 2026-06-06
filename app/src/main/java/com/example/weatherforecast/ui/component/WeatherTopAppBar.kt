@@ -1,5 +1,6 @@
 package com.example.weatherforecast.ui.component
 
+import androidx.compose.foundation.layout.RowScope
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -18,7 +19,8 @@ fun WeatherTopAppBar(
     title: String,
     modifier: Modifier = Modifier,
     canNavigateBack: Boolean = false,
-    navigateUp: () -> Unit = {}
+    navigateUp: () -> Unit = {},
+    actions: @Composable RowScope.() -> Unit = {} //his allows you to easily add a Logout button to the Home screen later by passing an IconButton to the actions parameter.
 ) {
     TopAppBar(
         title = { Text(text = title) },
@@ -37,6 +39,7 @@ fun WeatherTopAppBar(
                     )
                 }
             }
-        }
+        },
+        actions = actions
     )
 }

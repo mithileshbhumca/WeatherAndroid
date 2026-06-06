@@ -4,7 +4,7 @@ import app.cash.turbine.test
 import com.example.weatherforecast.data.model.CurrentWeather
 import com.example.weatherforecast.data.model.WeatherDetailData
 import com.example.weatherforecast.data.model.WeatherForecast
-import com.example.weatherforecast.domain.repository.UiState
+import com.example.weatherforecast.domain.UiState
 import com.example.weatherforecast.domain.usecase.GetForecastUseCase
 import com.example.weatherforecast.domain.usecase.GetWeatherUseCase
 import com.example.weatherforecast.ui.utils.TestDispatcherProvider

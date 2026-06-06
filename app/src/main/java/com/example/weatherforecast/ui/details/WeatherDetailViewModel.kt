@@ -4,13 +4,14 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.weatherforecast.data.model.WeatherDetailData
 import com.example.weatherforecast.data.network.NoConnectivityException
-import com.example.weatherforecast.domain.repository.UiState
+import com.example.weatherforecast.domain.UiState
 import com.example.weatherforecast.domain.usecase.GetForecastUseCase
 import com.example.weatherforecast.domain.usecase.GetWeatherUseCase
 import com.example.weatherforecast.utils.DispatcherProvider
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
@@ -23,7 +24,7 @@ class WeatherDetailViewModel @Inject constructor(
     private val dispatcherProvider: DispatcherProvider
 ) : ViewModel() {
     private val _uiState = MutableStateFlow<UiState<WeatherDetailData>>(UiState.Loading)
-    val uiState: StateFlow<UiState<WeatherDetailData>> = _uiState
+    val uiState: StateFlow<UiState<WeatherDetailData>> = _uiState.asStateFlow()
 
     fun fetchDetails(lat: Double, lon: Double) {
         viewModelScope.launch(dispatcherProvider.main) {

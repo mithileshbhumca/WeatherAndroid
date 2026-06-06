@@ -28,6 +28,7 @@ material = "1.12.0"
 activity = "1.10.1"
 hilt-version = "2.51.1"
 hiltNavigationCompose = "1.2.0"
+securityCrypto = "1.1.0-alpha06"
 kotlin-ksp = "2.0.21-1.0.27"
 compose-plugin = "1.8.0"
 turbine = "0.11.0"
@@ -60,6 +61,7 @@ androidx-navigation-ui-ktx = { group = "androidx.navigation", name = "navigation
 androidx-navigation-dynamic = { group = "androidx.navigation", name = "navigation-dynamic-features-fragment", version.ref = "nav-version" }
 androidx-navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "navigationCompose" }
 androidx-hilt-navigation-compose = { group = "androidx.hilt", name = "hilt-navigation-compose", version.ref = "hiltNavigationCompose" }
+androidx-security-crypto = { group = "androidx.security", name = "security-crypto", version.ref = "securityCrypto" }
 
 
 glide = { group = "com.github.bumptech.glide", name = "glide", version.ref = "glide" }

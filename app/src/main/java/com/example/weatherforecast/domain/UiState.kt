@@ -1,4 +1,4 @@
-package com.example.weatherforecast.domain.repository
+package com.example.weatherforecast.domain
 
 sealed interface UiState<out T> {
 

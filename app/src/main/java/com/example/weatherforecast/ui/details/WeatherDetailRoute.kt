@@ -13,8 +13,7 @@ fun WeatherDetailRoute(
     onBackClick: () -> Unit = {},
     viewModel: WeatherDetailViewModel = hiltViewModel()
 ) {
-    val uiState by viewModel.uiState
-        .collectAsStateWithLifecycle()
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     LaunchedEffect(Unit) {
         viewModel.fetchDetails(lat, lon)

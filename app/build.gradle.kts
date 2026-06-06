@@ -24,7 +24,8 @@ android {
             useSupportLibrary = true
         }
         // Additional properties specific to the build
-        buildConfigField("String", "WEATHER_API_ENDPOINT", "\"http://api.openweathermap.org/\"")
+        buildConfigField("String", "WEATHER_API_ENDPOINT", "\"https://api.openweathermap.org/\"")
+        buildConfigField("String", "AUTH_API_ENDPOINT", "\"https://myapi-dwaw.onrender.com/\"")
         buildConfigField("String", "WEATHER_API_APP_ID", "\"7aa312d4949350e5a25c8b425ee9df39\"")
     }
     buildTypes {
@@ -95,6 +96,7 @@ dependencies {
     //compose navigation
     implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.hilt.navigation.compose)
+    implementation(libs.androidx.security.crypto)
     implementation(
         "io.coil-kt:coil-compose:2.7.0"
     )

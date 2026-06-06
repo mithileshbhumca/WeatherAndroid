@@ -18,7 +18,7 @@ import com.example.weatherforecast.data.model.ThreeHoursWeatherForecast
 import com.example.weatherforecast.data.model.WeatherDetailData
 import com.example.weatherforecast.data.model.WeatherForecast
 import com.example.weatherforecast.databinding.FragmentWeatherDetailBinding
-import com.example.weatherforecast.domain.repository.UiState
+import com.example.weatherforecast.domain.UiState
 import com.example.weatherforecast.utils.Constants
 import com.example.weatherforecast.utils.Constants.ICON_URL
 import com.example.weatherforecast.utils.FormattingUtil

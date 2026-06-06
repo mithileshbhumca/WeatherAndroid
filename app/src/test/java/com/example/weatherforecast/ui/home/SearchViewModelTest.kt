@@ -1,8 +1,9 @@
 package com.example.weatherforecast.ui.home
 
 import app.cash.turbine.test
+import com.example.weatherforecast.data.local.TokenManager
 import com.example.weatherforecast.data.model.City
-import com.example.weatherforecast.domain.repository.UiState
+import com.example.weatherforecast.domain.UiState
 import com.example.weatherforecast.domain.usecase.GetCityUseCase
 import com.example.weatherforecast.ui.utils.TestDispatcherProvider
 import com.example.weatherforecast.utils.DispatcherProvider
@@ -29,12 +30,14 @@ class SearchViewModelTest {
 
     private lateinit var viewModel: SearchViewModel
     private lateinit var testDispatcherProvider: DispatcherProvider
+    private lateinit var tokenManager: TokenManager
+
 
     @Before
     fun setUp() {
         MockKAnnotations.init(this)
         testDispatcherProvider = TestDispatcherProvider()
-        viewModel = SearchViewModel(getCityUseCase, testDispatcherProvider)
+        viewModel = SearchViewModel(getCityUseCase, testDispatcherProvider,tokenManager)
     }
 
     @Test

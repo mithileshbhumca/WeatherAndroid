@@ -14,7 +14,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.weatherforecast.data.model.City
 import com.example.weatherforecast.databinding.FragmentHomeBinding
-import com.example.weatherforecast.domain.repository.UiState
+import com.example.weatherforecast.domain.UiState
 import com.example.weatherforecast.utils.queryTextChanges
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
