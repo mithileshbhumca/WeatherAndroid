@@ -13,7 +13,7 @@ plugins {
 sonar {
     properties {
         // TODO: Update these with your actual SonarCloud project key and organization
-        property("sonar.projectKey", "myorgtest-validator")
+        property("sonar.projectKey", "myorgtest-validator_weatherapp")
         property("sonar.organization", "myOrgTest-Validator")
         property("sonar.host.url", "https://sonarcloud.io")
 
