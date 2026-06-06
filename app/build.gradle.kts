@@ -7,7 +7,6 @@ plugins {
     alias(libs.plugins.jetbrainsCompose)
     alias(libs.plugins.compose.compiler)
    // jacoco
-    alias(libs.plugins.sonarqube)
 }
 
 android {

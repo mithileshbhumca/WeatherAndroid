@@ -7,5 +7,21 @@ plugins {
     alias(libs.plugins.jetbrains.kotlin.ksp) apply false
     alias(libs.plugins.jetbrainsCompose) apply false
     alias(libs.plugins.compose.compiler) apply false
+    alias(libs.plugins.sonarqube)
+}
+
+sonar {
+    properties {
+        // TODO: Update these with your actual SonarCloud project key and organization
+        property("sonar.projectKey", "mithileshbhumca")
+        property("sonar.organization", "Mithilesh")
+        property("sonar.host.url", "https://sonarcloud.io")
+
+        property("sonar.kotlin.binaries", "**/build/classes/kotlin/main, **/build/tmp/kotlin-classes/debug")
+        property("sonar.sources", "src/main/java")
+        property("sonar.tests", "src/test/java, src/androidTest/java")
+        property("sonar.junit.reportPaths", "**/build/test-results/testDebugUnitTest")
+        property("sonar.coverage.jacoco.xmlReportPaths", "**/build/reports/jacoco/jacocoTestReport/jacocoTestReport.xml")
+    }
 }
 
