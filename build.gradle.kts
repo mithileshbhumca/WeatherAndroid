@@ -12,9 +12,8 @@ plugins {
 
 sonar {
     properties {
-        // TODO: Update these with your actual SonarCloud project key and organization
         property("sonar.projectKey", "myorgtest-validator_weatherapp")
-        property("sonar.organization", "myOrgTest-Validator")
+        property("sonar.organization", "myorgtest-validator")
         property("sonar.host.url", "https://sonarcloud.io")
 
         property("sonar.kotlin.binaries", "**/build/classes/kotlin/main, **/build/tmp/kotlin-classes/debug")
