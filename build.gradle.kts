@@ -15,7 +15,6 @@ sonar {
         property("sonar.projectKey", "myorgtest-validator_weatherapp")
         property("sonar.organization", "myorgtest-validator")
         property("sonar.host.url", "https://sonarcloud.io")
-
         property("sonar.kotlin.binaries", "**/build/classes/kotlin/main, **/build/tmp/kotlin-classes/debug")
         property("sonar.sources", "src/main/java")
         property("sonar.tests", "src/test/java, src/androidTest/java")
