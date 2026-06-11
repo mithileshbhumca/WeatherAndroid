@@ -20,4 +20,9 @@ class AuthRepository @Inject constructor(
             body = useInfo
         ))
     }
+
+    override fun getRefreshToken(refreshToken: Map<String, String>)=
+        authApiService.refreshToken(
+        body = refreshToken
+    )
 }

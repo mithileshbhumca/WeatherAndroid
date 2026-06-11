@@ -5,26 +5,21 @@ import androidx.compose.runtime.getValue
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
+import com.example.weatherforecast.data.authmodel.LoginResponse
 import com.example.weatherforecast.navigation.Screen
 
 @Composable
 fun AuthRoute(
     authViewModel: LoginViewModel= hiltViewModel(),
-    navController: NavController
+    onLoginSuccess:(LoginResponse)-> Unit,
 ){
     val uiState by authViewModel.uiSate.collectAsStateWithLifecycle()
 
     LoginScreen(
-        uiState=uiState,
+        uiState= uiState,
         onLoginClick={ user->
             authViewModel.loginApi(user)
         },
-        onLoginSuccess = { response->
-            navController.navigate(Screen.Home.route) {
-                popUpTo(Screen.Login.route) {   //Cleared Navigation Backstack
-                    inclusive = true
-                }
-            }
-        }
+        onLoginSuccess = onLoginSuccess
     )
 }

@@ -1,6 +1,5 @@
 package com.example.weatherforecast.ui.auth
 
-import android.util.Log
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.Column
@@ -27,7 +26,6 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.weatherforecast.data.authmodel.LoginResponse
 import com.example.weatherforecast.data.authmodel.User
 import com.example.weatherforecast.domain.UiState

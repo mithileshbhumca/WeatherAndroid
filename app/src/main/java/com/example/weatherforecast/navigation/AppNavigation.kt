@@ -32,7 +32,15 @@ fun AppNavigation(
             startDestination = startDestination
         ) {
             composable (route = Screen.Login.route){
-                AuthRoute(navController=navController)
+                AuthRoute(
+                   onLoginSuccess = {
+                       navController.navigate(Screen.Home.route){
+                           popUpTo(Screen.Login.route){   //Cleared Navigation Backstack
+                               inclusive=true
+                           }
+                       }
+                   }
+                )
             }
             composable(route= Screen.Home.route) {
                 HomeRoute(

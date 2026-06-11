@@ -43,7 +43,10 @@ class LoginViewModel @Inject constructor(
                             val loginResponse = response.body()!!
                             loginResponse.accessToken?.let { access ->
                                 loginResponse.refreshToken?.let { refresh ->
-                                    tokenManager.saveTokens(access, refresh)
+                                    loginResponse.refreshTokenExpiry?.let { expiry->
+                                        tokenManager.saveTokens(access, refresh,expiry)
+
+                                    }
                                 }
                             }
                             _uiState.value= UiState.Success(loginResponse)
@@ -70,6 +73,9 @@ class LoginViewModel @Inject constructor(
     }
 
     fun isLoggedIn(): Boolean = tokenManager.getAccessToken() != null
-
+    fun login(email: String, password: String) {
+        val user = User("", email, password)
+        loginApi(user)
+    }
 
 }

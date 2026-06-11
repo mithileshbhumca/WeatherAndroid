@@ -23,10 +23,13 @@ class TokenManager @Inject constructor(
         EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
     )
 
-    fun saveTokens(accessToken: String, refreshToken: String) {
+    fun saveTokens(accessToken: String, refreshToken: String, expirySeconds: Long=0L) {
+        val expiryTime = System.currentTimeMillis() + expirySeconds * 1000
+
         sharedPreferences.edit().apply {
             putString(KEY_ACCESS_TOKEN, accessToken)
             putString(KEY_REFRESH_TOKEN, refreshToken)
+            putLong(KEY_REFRESH_EXPIRY, expiryTime)
             apply()
         }
     }
@@ -34,11 +37,13 @@ class TokenManager @Inject constructor(
     fun getAccessToken(): String? = sharedPreferences.getString(KEY_ACCESS_TOKEN, null)
 
     fun getRefreshToken(): String? = sharedPreferences.getString(KEY_REFRESH_TOKEN, null)
+    fun getRefreshExpiry(): Long? = sharedPreferences.getLong(KEY_REFRESH_EXPIRY, 0)
 
     fun clearTokens() {
         sharedPreferences.edit().apply {
             remove(KEY_ACCESS_TOKEN)
             remove(KEY_REFRESH_TOKEN)
+            remove(KEY_REFRESH_EXPIRY)
             apply()
         }
     }
@@ -46,5 +51,7 @@ class TokenManager @Inject constructor(
     companion object {
         private const val KEY_ACCESS_TOKEN = "access_token"
         private const val KEY_REFRESH_TOKEN = "refresh_token"
+        private const val KEY_REFRESH_EXPIRY = "refresh_expiry"
+
     }
 }

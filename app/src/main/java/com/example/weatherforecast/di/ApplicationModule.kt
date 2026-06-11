@@ -5,6 +5,7 @@ import android.content.Context
 import com.example.weatherforecast.BuildConfig
 import com.example.weatherforecast.data.network.ApiService
 import com.example.weatherforecast.data.network.AuthApiService
+import com.example.weatherforecast.data.network.TokenAuthenticator
 import com.example.weatherforecast.data.network.interceptor.CacheInterceptor
 import com.example.weatherforecast.data.network.interceptor.NetworkConnectionInterceptor
 import com.example.weatherforecast.data.network.interceptor.RetryInterceptor
@@ -24,8 +25,10 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.io.File
+import java.security.KeyStore
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
+
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -40,10 +43,9 @@ object ApplicationModule {
     @Provides
     @Singleton
     fun provideOkHttpClient(
-        networkConnectionInterceptor:
-        NetworkConnectionInterceptor,
-        cacheInterceptor:
-        CacheInterceptor,
+        networkConnectionInterceptor: NetworkConnectionInterceptor,
+        tokenAuthenticator: TokenAuthenticator,
+        cacheInterceptor: CacheInterceptor,
         context: Context
     ): OkHttpClient {
          val TIMEOUT = 30L
@@ -51,18 +53,24 @@ object ApplicationModule {
          val CACHE_SIZE = 10 * 1024 * 1024L // 10 MB cache
         val cacheDir = File(context.cacheDir, "http_cache")
         val cache = Cache(cacheDir, CACHE_SIZE)
-        return OkHttpClient.Builder()
-            .cache(cache) // Set up cache
-            .connectTimeout(TIMEOUT, TimeUnit.SECONDS)
-            .readTimeout(TIMEOUT, TimeUnit.SECONDS)
-            .writeTimeout(TIMEOUT, TimeUnit.SECONDS)
-            .addInterceptor(HttpLoggingInterceptor().apply {
+        val okHttpBuilder=OkHttpClient.Builder()
+
+        // okHttpBuilder.retryOnConnectionFailure(true)//need to check side effect
+        if(BuildConfig.ENABLE_HTTP_LOGS){
+            okHttpBuilder.addInterceptor(HttpLoggingInterceptor().apply {
                 level = HttpLoggingInterceptor.Level.BODY
             }) //for logging api info interceptor
-            .addInterceptor(RetryInterceptor(MAX_RETRY_ATTEMPTS))// retry api interceptor
+        }
+        okHttpBuilder
             .addInterceptor(networkConnectionInterceptor)//check internet availability
+            .cache(cache) // Set up cache
+            .readTimeout(TIMEOUT, TimeUnit.SECONDS)
+            .writeTimeout(TIMEOUT, TimeUnit.SECONDS)
+            .connectTimeout(TIMEOUT, TimeUnit.SECONDS)
+            .addInterceptor(RetryInterceptor(MAX_RETRY_ATTEMPTS))// retry api interceptor
             .addNetworkInterceptor(cacheInterceptor)// add for api response cache
-            .build()
+            .authenticator(tokenAuthenticator) //token expiry handling 401 error
+           return okHttpBuilder.build()
     }
     //main retrofit
     @Provides

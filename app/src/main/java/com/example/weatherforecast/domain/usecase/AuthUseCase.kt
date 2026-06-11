@@ -1,6 +1,7 @@
 package com.example.weatherforecast.domain.usecase
 
 import com.example.weatherforecast.data.authmodel.LoginResponse
+import com.example.weatherforecast.data.authmodel.RefreshResponse
 import com.example.weatherforecast.data.authmodel.User
 import com.example.weatherforecast.domain.auth.IIAuthRepository
 import kotlinx.coroutines.flow.Flow
@@ -15,5 +16,9 @@ class AuthUseCase @Inject constructor(
     }
     fun executeSignUp(userInfo: User): Flow<Response<Map<String, Any>>>{
         return mAuthRepository.getSignUp(userInfo)
+    }
+
+    fun executeRefreshToken(refreshToken: Map<String, String>): Response<RefreshResponse>{
+        return mAuthRepository.getRefreshToken(refreshToken)
     }
 }

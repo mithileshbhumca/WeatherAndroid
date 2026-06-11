@@ -27,9 +27,19 @@ android {
         buildConfigField("String", "WEATHER_API_ENDPOINT", "\"https://api.openweathermap.org/\"")
         buildConfigField("String", "AUTH_API_ENDPOINT", "\"https://myapi-dwaw.onrender.com/\"")
         buildConfigField("String", "WEATHER_API_APP_ID", "\"7aa312d4949350e5a25c8b425ee9df39\"")
+//        buildConfigField("boolean", "ENABLE_HTTP_LOGS", "true")
+
     }
     buildTypes {
         release {
+            isMinifyEnabled = false
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
+            buildConfigField("boolean", "ENABLE_HTTP_LOGS", "false")
+        }
+        debug {
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
