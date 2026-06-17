@@ -3,7 +3,7 @@ package com.example.weatherforecast.ui.auth
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.weatherforecast.data.authmodel.LoginResponse
+import com.example.weatherforecast.data.authmodel.AuthResponse
 import com.example.weatherforecast.data.authmodel.User
 import com.example.weatherforecast.data.local.TokenManager
 import com.example.weatherforecast.data.network.NoConnectivityException
@@ -25,7 +25,7 @@ class LoginViewModel @Inject constructor(
     private val dispatcherProvider: DispatcherProvider,
     private val tokenManager: TokenManager
 ): ViewModel() {
-    private val _uiState= MutableStateFlow<UiState<LoginResponse>>(UiState.Idle)
+    private val _uiState= MutableStateFlow<UiState<AuthResponse>>(UiState.Idle)
     val uiSate = _uiState.asStateFlow()
 
 
@@ -64,6 +64,43 @@ class LoginViewModel @Inject constructor(
 
         }
     }
+
+    fun signUpApi(userInfo: User){
+        viewModelScope.launch(dispatcherProvider.main) {
+            try {
+                authUseCase.executeSignUp(userInfo)
+                    .flowOn(dispatcherProvider.io)
+                    .onStart { _uiState.value = UiState.Loading } // Cleaner loading emission
+                    .catch { e ->
+                        _uiState.value = UiState.Error(e.toString()?:"Unknown Error")
+                    }
+                    .collect {  response ->
+                        if(response.isSuccessful && response.body()!=null){
+                            val response = response.body()!!
+                            response.accessToken?.let { access ->
+                                response.refreshToken?.let { refresh ->
+                                    response.refreshTokenExpiry?.let { expiry->
+                                        tokenManager.saveTokens(access, refresh,expiry)
+
+                                    }
+                                }
+                            }
+                            _uiState.value= UiState.Success(response)
+                        }else{
+                            _uiState.value= UiState.Error("Login API server error")
+                        }
+
+                    }
+
+            }catch (e: NoConnectivityException) {
+                _uiState.value = UiState.Error(e.message.toString())
+            } catch (e: Exception) {
+                _uiState.value = UiState.Error(e.toString())
+            }
+
+        }
+    }
+
 
     fun isLoginValid(email:String,pass:String): Boolean{
         Log.d("email:",email)

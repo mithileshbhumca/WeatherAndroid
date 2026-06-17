@@ -11,7 +11,7 @@ import javax.inject.Inject
 //token manage make thread safe only one thread can call refresh token api
 class TokenAuthenticator @Inject constructor(
     private val tokenManager: TokenManager,
-    private val authUseCase: AuthUseCase
+    private val authUseCase: dagger.Lazy<AuthUseCase>
 ) : Authenticator {
     override fun authenticate(
         route: Route?,
@@ -43,7 +43,7 @@ class TokenAuthenticator @Inject constructor(
 
     private fun fetchNewAccessToken(): String? {
         val refreshToken = tokenManager.getRefreshToken() ?: return null
-       val response= authUseCase.executeRefreshToken(mapOf("refreshToken" to refreshToken))
+       val response= authUseCase.get().executeRefreshToken(mapOf("refreshToken" to refreshToken))
         if (!response.isSuccessful) {
             tokenManager.clearTokens()
             return null

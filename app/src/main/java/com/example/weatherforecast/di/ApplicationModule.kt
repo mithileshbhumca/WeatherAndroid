@@ -25,7 +25,6 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.io.File
-import java.security.KeyStore
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
@@ -42,9 +41,9 @@ object ApplicationModule {
 
     @Provides
     @Singleton
+    @MainApi
     fun provideOkHttpClient(
         networkConnectionInterceptor: NetworkConnectionInterceptor,
-        tokenAuthenticator: TokenAuthenticator,
         cacheInterceptor: CacheInterceptor,
         context: Context
     ): OkHttpClient {
@@ -69,14 +68,44 @@ object ApplicationModule {
             .connectTimeout(TIMEOUT, TimeUnit.SECONDS)
             .addInterceptor(RetryInterceptor(MAX_RETRY_ATTEMPTS))// retry api interceptor
             .addNetworkInterceptor(cacheInterceptor)// add for api response cache
-            .authenticator(tokenAuthenticator) //token expiry handling 401 error
            return okHttpBuilder.build()
     }
+
+    @Provides
+    @Singleton
+    @AuthApi
+    fun provideAuthOkHttpClient(
+        networkConnectionInterceptor: NetworkConnectionInterceptor,
+        cacheInterceptor: CacheInterceptor,
+        context: Context,
+        tokenAuthenticator: TokenAuthenticator,
+        ): OkHttpClient {
+        val TIMEOUT = 30L
+        val MAX_RETRY_ATTEMPTS = 2
+        val okHttpBuilder = OkHttpClient.Builder()
+
+        if (BuildConfig.ENABLE_HTTP_LOGS) {
+            okHttpBuilder.addInterceptor(HttpLoggingInterceptor().apply {
+                level = HttpLoggingInterceptor.Level.BODY
+            })
+        }
+        okHttpBuilder
+            .addInterceptor(networkConnectionInterceptor)
+            .readTimeout(TIMEOUT, TimeUnit.SECONDS)
+            .writeTimeout(TIMEOUT, TimeUnit.SECONDS)
+            .connectTimeout(TIMEOUT, TimeUnit.SECONDS)
+            .addInterceptor(RetryInterceptor(MAX_RETRY_ATTEMPTS))
+            .addNetworkInterceptor(cacheInterceptor)
+            .authenticator(tokenAuthenticator) //token expiry handling 401 error
+
+        return okHttpBuilder.build()
+    }
+
     //main retrofit
     @Provides
     @Singleton
     @MainApi
-    fun provideMainRetrofit(client: OkHttpClient): Retrofit {
+    fun provideMainRetrofit(@MainApi client: OkHttpClient): Retrofit {
         return Retrofit.Builder()
             .baseUrl(BuildConfig.WEATHER_API_ENDPOINT)
             .client(client)
@@ -89,7 +118,7 @@ object ApplicationModule {
     @Provides
     @Singleton
     @AuthApi
-    fun provideAuthRetrofit(client: OkHttpClient): Retrofit {
+    fun provideAuthRetrofit(@AuthApi client: OkHttpClient): Retrofit {
         return Retrofit.Builder()
             .baseUrl(BuildConfig.AUTH_API_ENDPOINT)
             .client(client)

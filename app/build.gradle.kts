@@ -6,6 +6,7 @@ plugins {
     alias(libs.plugins.jetbrains.kotlin.ksp)
     alias(libs.plugins.jetbrainsCompose)
     alias(libs.plugins.compose.compiler)
+    kotlin("plugin.parcelize")
 }
 
 android {

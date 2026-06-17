@@ -33,7 +33,7 @@ fun AppNavigation(
         ) {
             composable (route = Screen.Login.route){
                 AuthRoute(
-                   onLoginSuccess = {
+                    onAuthSuccess = {
                        navController.navigate(Screen.Home.route){
                            popUpTo(Screen.Login.route){   //Cleared Navigation Backstack
                                inclusive=true
