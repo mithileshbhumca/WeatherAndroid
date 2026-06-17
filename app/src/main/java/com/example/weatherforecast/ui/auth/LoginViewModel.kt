@@ -36,7 +36,7 @@ class LoginViewModel @Inject constructor(
                     .flowOn(dispatcherProvider.io)
                     .onStart { _uiState.value = UiState.Loading } // Cleaner loading emission
                     .catch { e ->
-                        _uiState.value = UiState.Error(e.toString()?:"Unknown Error")
+                        _uiState.value = UiState.Error(e.toString())
                     }
                     .collect {  response ->
                         if(response.isSuccessful && response.body()!=null){

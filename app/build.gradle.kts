@@ -109,7 +109,7 @@ dependencies {
     implementation(libs.androidx.hilt.navigation.compose)
     implementation(libs.androidx.security.crypto)
     implementation(
-        "io.coil-kt:coil-compose:2.7.0"
+        libs.coil.compose
     )
     //test
     testImplementation(libs.junit)
